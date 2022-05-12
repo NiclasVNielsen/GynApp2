@@ -43,6 +43,9 @@ export default defineComponent({
 h1
   font-size: 32px !important
 
+h2
+  font-size: 24px !important
+
 h1,h2,h3,h4,h5,h6
   color: var(--overskrift)
 

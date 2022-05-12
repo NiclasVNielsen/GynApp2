@@ -28,11 +28,59 @@
       </li>
     </ul>
   </header>
+
+  <main >
+    <section>
+      <h2 class="spaceLeft">
+        Fysisk
+      </h2>
+      <section class="sympContainer">
+        <!-- Loop start -->
+          <div class="symptomThumb" v-for="symp in physicalSymp" :key="symp">
+            <figure class="progCircle">
+              <div>
+
+              </div>
+            </figure>
+            <h3>
+              Symptom
+            </h3>
+          </div>
+        <!-- Loop end -->
+      </section>
+    </section>
+    <section>
+      <h2 class="spaceLeft">
+        Phykisk
+      </h2>
+      <section class="sympContainer">
+        <!-- Loop start -->
+          <div class="symptomThumb" v-for="symp in physicalSymp" :key="symp">
+            <figure class="progCircle">
+              <div>
+
+              </div>
+            </figure>
+            <h3>
+              Symptom
+            </h3>
+          </div>
+        <!-- Loop end -->
+      </section>
+    </section>
+  </main>
+
 </template>
 
 <script>
-
 export default({
+  setup(){
+    const physicalSymp = [1,2,3,4];
+
+    return {
+      physicalSymp
+    }
+  },
   name: 'HomePage',
 });
 </script>
@@ -53,5 +101,35 @@ export default({
     font-size: 14px
   .target
     background: #fff
+
+.sympContainer
+  display: flex
+  overflow-x: scroll
+  .symptomThumb
+    width: 110px
+    margin-right: 20px
+    &:first-of-type
+      margin-left: 20px
+    .progCircle
+      //Stroke fill color something
+      border-radius: 50%
+      width: 110px
+      height: 110px
+      margin: 0
+
+      display: flex
+      justify-content: center
+      align-items: center
+
+      //background: var(--blaabg)
+      background: var(--hvidbg)
+      div
+        background: #fff
+        width: 94px
+        height: 94px
+        border-radius: 50%
+    h3
+      text-align: center
+      font-size: 14px
 
 </style>
