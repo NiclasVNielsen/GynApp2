@@ -1,0 +1,7 @@
+{
+  "name": "GynApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}

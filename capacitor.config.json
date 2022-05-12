@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "GynApp",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}
