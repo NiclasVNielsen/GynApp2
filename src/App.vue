@@ -29,7 +29,7 @@ export default defineComponent({
   --blaabg: #3D5BCD
 
   color: var(--broedtekst)
-
+  font-family: 'Lato', sans-serif
 *
   margin: 0
   padding: 0
