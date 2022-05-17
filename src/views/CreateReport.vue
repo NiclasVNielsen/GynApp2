@@ -6,12 +6,23 @@
     </figure>
     <div>
       <h1>
-        Nyt Symptom
+        Tracker Navn
       </h1>
     </div>
   </header>
   <form action="">
-    <input type="text" placeholder="Navn">
+    <input type="date">
+    <select name="" id="">
+      <option value="" disabled selected>Type af smerte</option>
+    </select>
+    <label for="intensity">
+      Intensitet
+    </label>
+    <input name="intensity" type="range" min="0" max="10">
+    <label for="journal">
+      Skriv journal (Valgfri)
+    </label>
+    <textarea name="journal" id="" cols="30" rows="10"></textarea>
     <div class="actions">
       <a href="/home">
         <ion-icon name="arrow-back"></ion-icon>

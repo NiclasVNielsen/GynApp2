@@ -52,6 +52,9 @@ h1,h2,h3,h4,h5,h6
 p
   color: var(--broedtekst)
 
+a
+  text-decoration: none
+
 .spaceBoth
   padding-left: 16px
   padding-right: 16px
@@ -59,6 +62,5 @@ p
   padding-left: 16px
 .spaceRight
   padding-right: 16px
-
 
 </style>

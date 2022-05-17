@@ -13,7 +13,7 @@
 
   <header class="spaceBoth">
     <h1 style="line-height: .8em">
-      Hello, {{ name }}! <br>
+      Hello, Winston! <br>
       <span style="font-size: 16px">11 april, 2022</span>
     </h1>
     <ul class="dayCalendar">
@@ -43,43 +43,96 @@
 
   <main >
     <section>
-      <template v-for="types in symptomTypes" :key="types.order">
-        <h2 class="spaceLeft">
-          {{types.name}}
-        </h2>
-        <section class="sympContainer">
-          <!-- Loop start -->
-            <template v-for="(symptom) in allSymptoms" :key="symptom">
-              <template v-if="symptom.type == types.name">
-                <div class="symptomThumb">
-                  <a href="/createreport">
-                    <figure class="progCircle">
-                      <div class="pie animate no-round" :style="{'--p': symptom.reports.sort( orderDates )[0].intensity * 10}"
-                      style="--c:#3D5BCD; position: relative">
-                        <ion-icon name="aperture" style="color: #3D5BCD"></ion-icon>
-                      </div>
-                    </figure>
-                    <h3>
-                      {{symptom.name}}
-                    </h3>
-                  </a>
-                </div>
-              </template>
-            </template>
-          <!-- Loop end -->
-          <div class="symptomThumb">
-            <a href="/createsymptom">
+      <h2 class="spaceLeft">
+        Fysisk
+      </h2>
+      <section class="sympContainer">
+        <!-- Loop start -->
+          <div class="symptomThumb" v-for="symp in physicalSymp" :key="symp">
+            <a href="/createreport">
               <figure class="progCircle">
-                <div class="addSymptom">
-                  <ion-icon name="add-circle"></ion-icon>
+                <div class="pie animate no-round" style="--p:60;--c:#3D5BCD; position: relative">
+                  <ion-icon name="aperture" style="color: #3D5BCD"></ion-icon>
                 </div>
               </figure>
+              <h3>
+                Missing Cake
+              </h3>
             </a>
           </div>
-        </section>
+        <!-- Loop end -->
+        <div class="symptomThumb">
+          <a href="/createsymptom">
+            <figure class="progCircle">
+              <div class="addSymptom">
+                <ion-icon name="add-circle"></ion-icon>
+              </div>
+            </figure>
+          </a>
+        </div>
+      </section>
+    </section>
 
-
-      </template>
+    <section>
+      <h2 class="spaceLeft">
+        Phykisk
+      </h2>
+      <section class="sympContainer">
+        <!-- Loop start -->
+          <div class="symptomThumb" v-for="symp in physicalSymp" :key="symp">
+            <a href="/createreport">
+              <figure class="progCircle">
+                <div class="pie animate no-round" style="--p:30;--c:#219D0D; position: relative">
+                  <ion-icon name="bug" style="color: #219D0D"></ion-icon>
+                </div>
+              </figure>
+              <h3>
+                Brain Lag
+              </h3>
+            </a>
+          </div>
+        <!-- Loop end -->
+        <div class="symptomThumb">
+          <a href="/createsymptom">
+            <figure class="progCircle">
+              <div class="addSymptom">
+                <ion-icon name="add-circle"></ion-icon>
+              </div>
+            </figure>
+          </a>
+        </div>
+      </section>
+    </section>
+    
+    <section>
+      <h2 class="spaceLeft">
+        Medicin
+      </h2>
+      <section class="sympContainer">
+        <!-- Loop start -->
+          <div class="medBox" v-for="symp in physicalSymp" :key="symp">
+            <div class="title">
+              <p>
+                Medicin
+              </p>
+              <p class="dose">
+                100mg
+              </p>
+              <!-- alignitems center -->
+            </div>
+            <div class="info">
+              <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25 4.28932C27.7464 1.54291 31.4713 0 35.3553 0C39.2393 0 42.9643 1.54291 45.7107 4.28932C48.4571 7.03573 50 10.7607 50 14.6447C50 18.5287 48.4571 22.2536 45.7107 25L25 45.7107C23.6401 47.0706 22.0257 48.1493 20.2489 48.8852C18.4722 49.6212 16.5678 50 14.6447 50C10.7607 50 7.03573 48.4571 4.28932 45.7107C1.54291 42.9643 0 39.2393 0 35.3553C0 31.4713 1.54291 27.7464 4.28932 25L25 4.28932ZM33.8784 30.9161L42.7484 22.0461C44.6961 20.0818 45.7864 17.426 45.7808 14.6598C45.7751 11.8936 44.6739 9.24225 42.7182 7.28597C40.7625 5.32968 38.1114 4.22775 35.3452 4.2213C32.579 4.21486 29.9229 5.30442 27.9581 7.25158L19.0839 16.1216L33.8784 30.9161ZM24.3891 36.9411C24.5834 36.7466 24.7374 36.5157 24.8424 36.2617C24.9474 36.0076 25.0014 35.7354 25.0012 35.4606C25.001 35.1857 24.9466 34.9135 24.8413 34.6596C24.7359 34.4058 24.5815 34.1751 24.387 33.9809C24.1925 33.7867 23.9617 33.6327 23.7077 33.5276C23.4536 33.4226 23.1814 33.3687 22.9065 33.3689C22.6317 33.3691 22.3595 33.4234 22.1056 33.5288C21.8518 33.6341 21.6211 33.7885 21.4269 33.983L15.1509 40.259C14.9567 40.4535 14.8027 40.6843 14.6977 40.9383C14.5927 41.1924 14.5387 41.4646 14.5389 41.7395C14.5393 42.2946 14.7602 42.8269 15.153 43.2191C15.5458 43.6114 16.0784 43.8315 16.6335 43.8311C17.1887 43.8307 17.7209 43.6098 18.1132 43.217L24.3891 36.9411Z" fill="#E31515"/>
+              </svg>
+              <div class="pillContainer">
+                <div class="pill"></div>
+                <div class="pill"></div>
+              </div>
+              <!-- justify spacebetween -->
+            </div>
+          </div>
+        <!-- Loop end -->
+      </section>
     </section>
   </main>
 
@@ -111,11 +164,12 @@
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
-import { getUserById } from '../main'
 export default({
   setup(){
-    /* Login Test */
+    const physicalSymp = [1,2,3,4];
+
     const isLoggedIn = ref(false)
+
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           isLoggedIn.value = true
@@ -123,34 +177,9 @@ export default({
           isLoggedIn.value = false
         }
     })
-    /* Login Test */
 
-    const name = ref("")
-    const symptomTypes = ref([])
-    const allSymptoms = ref([])
-
-
-    function orderDates( a, b ) {
-      if ( a.time > b.time ){
-        return -1;
-      }
-      if ( a.time < b.time ){
-        return 1;
-      }
-      return 0;
-    }
-
-    /* const user = firebase.auth().currentUser;
-    console.log("WeeeWooo! ", user) */
-    getUserById("9U77iN4eWEZ9v8y6Tm2f5kiUOws1")
-      .then(data => {
-        name.value = data[0].Name
-        symptomTypes.value = data[0].SymptomTypes
-        allSymptoms.value = data[0].Symptoms
-      })
-      
     return {
-      isLoggedIn /* <- Login test */, name, symptomTypes, allSymptoms, orderDates
+      physicalSymp, isLoggedIn
     }
   },
   name: 'HomePage',
