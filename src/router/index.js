@@ -3,6 +3,7 @@ import HomePage from '../views/HomePage.vue'
 import CreateSymptom from '../views/CreateSymptom.vue'
 import CreateReport from '../views/CreateReport.vue'
 import Login from '../views/Login.vue'
+import Graph from '../views/Graph.vue'
 
 const routes = [
   {
@@ -28,6 +29,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/graph',
+    name: 'Graph',
+    component: Graph
   }
 ]
 

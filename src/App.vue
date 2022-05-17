@@ -63,4 +63,18 @@ a
 .spaceRight
   padding-right: 16px
 
+nav
+  position: fixed
+  bottom: 30px
+  left: 50%
+  transform: translateX(-50%)
+  width: 300px
+  height: 56px
+  border-radius: 20px
+  background: var(--hvidbg)
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12)
+  padding: 0 20px
+  display: flex
+  justify-content: space-between
+  align-items: center
 </style>
