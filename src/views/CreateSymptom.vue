@@ -7,8 +7,9 @@
       </h1>
     </div>
   </header>
-  <form action="">
-    <input type="text" placeholder="Navn">
+  <form @submit.prevent="create">
+    <input type="text" placeholder="Navn" name="name" id="name" v-model="name">
+    <!-- Needs type aswell -->
     <div class="actions">
       <a href="/home">
         <ion-icon name="arrow-back"></ion-icon>
@@ -22,14 +23,32 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import { getAuth } from "firebase/auth";
+import { createSymptom } from '@/main.js'
+
 export default({
   setup(){
-      
+    const name = ref("")
+
+    const create = () => {
+      const auth = getAuth();
+      let user = auth.currentUser.uid;
+      createSymptom(user, name.value)
+    }
+
+    return{
+      create, name
+    }
   }
 });
 </script>
 
 <style lang="sass" scoped>
+
+::placeholder 
+  color: #ADADAD
+
 
 header
   display: flex
@@ -59,7 +78,7 @@ form
     padding: 16px
     border: none
     background: #F6F6F6
-    color: #ADADAD
+    color: var(--overskrift)
     &[type=range]
       padding: 0
   textarea

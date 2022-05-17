@@ -45,6 +45,8 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 export const auth = firebaseApp.auth();
 export const db = firebaseApp.firestore();
 
+const usersCollection = db.collection('users')
+
 export const getUserById = async (id) => {
   try {
     const user = []
@@ -62,6 +64,40 @@ export const getUserById = async (id) => {
       err => console.error('This is burning🔥 ', err)
   }
 }
+
+export const createSymptom = async (id, name) => {
+  try {
+    const user = []
+    const symptoms = []
+
+    let q = query(collection(db, "users"), where("uid", "==", id))
+
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      symptoms.push(doc.data().Symptoms)
+    })
+
+    symptoms[0].push({
+      name: name,
+      reports: [{
+        'intensity': 0,
+        'time': 'May 17, 2022 at 4:52:00 PM UTC+2'
+      }],
+      type: "Psykisk"
+    })
+
+    usersCollection.doc(user[0]).update({
+      Symptoms: symptoms[0]
+    });
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
+
 
 const app = createApp(App)
   .use(IonicVue)
