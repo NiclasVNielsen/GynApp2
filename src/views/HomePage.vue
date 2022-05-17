@@ -1,16 +1,4 @@
 <template>
-
-
-  <template v-if="isLoggedIn">
-    Logged In
-  </template>
-
-  <template v-if="!isLoggedIn">
-    Logged Out
-  </template>
-
-<a href="/login">loginpage</a>
-
   <header class="spaceBoth">
     <h1 style="line-height: .8em">
       Hello, {{ name }}! <br>
@@ -114,16 +102,20 @@ import firebase from 'firebase/compat/app'
 import { getUserById } from '../main'
 export default({
   setup(){
-    /* Login Test */
     const isLoggedIn = ref(false)
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           isLoggedIn.value = true
+          getUserById(user.uid)
+            .then(data => {
+              name.value = data[0].Name
+              symptomTypes.value = data[0].SymptomTypes
+              allSymptoms.value = data[0].Symptoms
+            })
         } else {
           isLoggedIn.value = false
         }
     })
-    /* Login Test */
 
     const name = ref("")
     const symptomTypes = ref([])
@@ -139,18 +131,9 @@ export default({
       }
       return 0;
     }
-
-    /* const user = firebase.auth().currentUser;
-    console.log("WeeeWooo! ", user) */
-    getUserById("9U77iN4eWEZ9v8y6Tm2f5kiUOws1")
-      .then(data => {
-        name.value = data[0].Name
-        symptomTypes.value = data[0].SymptomTypes
-        allSymptoms.value = data[0].Symptoms
-      })
       
     return {
-      isLoggedIn /* <- Login test */, name, symptomTypes, allSymptoms, orderDates
+      name, symptomTypes, allSymptoms, orderDates
     }
   },
   name: 'HomePage',

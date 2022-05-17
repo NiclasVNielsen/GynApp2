@@ -47,12 +47,9 @@ export const db = firebaseApp.firestore();
 
 export const getUserById = async (id) => {
   try {
-    console.log('meep')
     const user = []
-    console.log('user', user)
 
     let q = query(collection(db, "users"), where("uid", "==", id))
-    console.log('user', q)
     
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {

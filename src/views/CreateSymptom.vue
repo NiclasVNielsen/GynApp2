@@ -1,9 +1,6 @@
 <template>
 <div class="spaceBoth">
   <header>
-    <figure>
-      <ion-icon name="bug" style="color: var(--overskrift)"></ion-icon>
-    </figure>
     <div>
       <h1>
         Nyt Symptom
@@ -47,6 +44,7 @@ header
   div
     width: 40%
     margin-right: 30%
+    margin-left: 30%
     h1
       font-size: 24px !important
       font-weight: 700
