@@ -55,13 +55,58 @@ export const getUserById = async (id) => {
     
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
-        user.push(doc.data())
+      user.push(doc.data())
     })
     return user
   } 
 
   catch {
-      err => console.error('This is burning🔥 ', err)
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
+export const getCategoriesById = async (id) => {
+  try {
+    const categories = []
+
+    let q = query(collection(db, "users"), where("uid", "==", id))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      categories.push(doc.data().SymptomTypes)
+    })
+    return categories
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
+export const getSymptomsByCategory = async (id, category) => {
+  try {
+    const allSymptoms = []
+    const filteredSymptoms = []
+
+    let q = query(collection(db, "users"), where("uid", "==", id))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      allSymptoms.push(doc.data().Symptoms)
+    })
+
+    for(let i = 0; i < allSymptoms[0].length; i++){
+      if(allSymptoms[0][i].type == category.name){
+        filteredSymptoms.push(allSymptoms[0][i])
+      }
+    }
+    console.log(filteredSymptoms)
+
+    return filteredSymptoms
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
   }
 }
 

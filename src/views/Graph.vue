@@ -29,6 +29,7 @@
       </div>
   </section>
   <div>
+</div>
     <h2>
       Tracking
     </h2>
@@ -36,23 +37,26 @@
       Vælg hvad du vil tracke
     </p>
   </div>
-  <h4 class="selectorTitle">
+  <h4 class="selectorTitle spaceBoth">
     Kategorier
   </h4>
   <div class="selectorContainer">
-    <div class="target">
-      All
-    </div>
+    <template v-for="(category, index) in categories" :key="category">
+        <div @click="selectCategory(index)" :class="targetCategory.name == category.name ? 'target' : ''">
+            {{category.name}}
+        </div>
+    </template>
   </div>
-  <h4 class="selectorTitle">
+  <h4 class="selectorTitle spaceBoth">
       Symptomer
   </h4>
   <div class="selectorContainer">
-    <div class="target">
-      All
-    </div>
+    <template v-for="(symptom, index) in symptoms" :key="symptom">
+        <div @click="selectSymptom(index)" :class="targetSymptom.name == symptom.name ? 'target' : ''">
+            {{symptom.name}}
+        </div>
+    </template>
   </div>
-</div>
 
   <nav>
     <a href="/home">
@@ -79,14 +83,44 @@
 </template>
 
 <script>
-//import { ref } from 'vue'
-//import { getAuth } from "firebase/auth"
+import { ref } from 'vue'
+import firebase from 'firebase/compat/app'
+import { getCategoriesById, getSymptomsByCategory } from '../main'
 
 export default({
   setup(){
+    const categories = ref([])
+    const targetCategory = ref([])
+    const symptoms = ref([])
+    const targetSymptom = ref([])
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          getCategoriesById(user.uid)
+            .then(data => {
+              categories.value = data[0]
+            })
+        }
+    })
+
+    function selectCategory(index){
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                getSymptomsByCategory(user.uid, categories.value[index])
+                    .then(data => {
+                        symptoms.value = data
+                        targetCategory.value = categories.value[index]
+                    })
+                }
+        })
+    }
+    
+    function selectSymptom(index){
+        targetSymptom.value = symptoms.value[index]
+        /* Control the graph here! */
+    } 
 
     return{
-      
+      categories, selectCategory, symptoms, selectSymptom, targetCategory, targetSymptom
     }
   }
 });
@@ -137,6 +171,8 @@ h2
 
 .selectorContainer
     display: flex
+    overflow-x: scroll
+    padding: 15px 0px 30px 0px
     div
         padding: 11.5px 20px
         background: #F2F2F2
@@ -144,6 +180,12 @@ h2
         border-radius: 10px
         font-weight: 700
         box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12)
+        margin-right: 10px
+        white-space: nowrap
+        &:first-of-type
+            margin-left: 16px
+        &:last-of-type
+            margin-right: 16px
     .target
         color: #fff
         background: #CB563D
