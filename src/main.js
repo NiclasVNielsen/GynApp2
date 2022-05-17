@@ -97,6 +97,59 @@ export const createSymptom = async (id, name) => {
   }
 }
 
+export const createReport = async (id, trackerName, time, intensity, journal) => {
+  try {
+    const user = []
+    const symptoms = []
+    const symptom = []
+
+    console.log('me me here!')
+    let q = query(collection(db, "users"), where("uid", "==", id))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      symptoms.push(doc.data().Symptoms)
+    })
+    console.log('me me also here!', symptoms)
+
+    for(let i = 0; i < symptoms[0].length; i++){
+      console.log('WEEEEE!', i)
+      if(symptoms[0][i].name == trackerName){
+        symptom.push(symptoms[0][i])
+        symptoms[0].splice(i, 1)
+      }
+    }
+    console.log('Am i here? plural', symptoms)
+    console.log('Am i here? singular', symptom)
+
+    if(journal){
+      symptom[0].reports.push({
+        'intensity': intensity,
+        'time': time,
+        'journal': journal
+      })
+    }else{
+      symptom[0].reports.push({
+        'intensity': intensity,
+        'time': time  
+      })
+    }
+
+
+    console.log('me me all the way here!')
+    symptoms[0].push(symptom[0])
+
+    usersCollection.doc(user[0]).update({
+      Symptoms: symptoms[0]
+    });
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
 
 
 const app = createApp(App)

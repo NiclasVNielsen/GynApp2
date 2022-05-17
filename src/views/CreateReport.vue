@@ -10,19 +10,16 @@
       </h1>
     </div>
   </header>
-  <form action="">
-    <input type="date">
-    <select name="" id="">
-      <option value="" disabled selected>Type af smerte</option>
-    </select>
+  <form @submit.prevent="create">
+    <input type="datetime-local" v-model="time">
     <label for="intensity">
       Intensitet
     </label>
-    <input name="intensity" type="range" min="0" max="10">
+    <input name="intensity" type="range" min="1" max="10" v-model="intensity">
     <label for="journal">
       Skriv journal (Valgfri)
     </label>
-    <textarea name="journal" id="" cols="30" rows="10"></textarea>
+    <textarea name="journal" id="journal" cols="30" rows="10" v-model="journal"></textarea>
     <div class="actions">
       <a href="/home">
         <ion-icon name="arrow-back"></ion-icon>
@@ -36,9 +33,25 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import { getAuth } from "firebase/auth"
+import { createReport } from '@/main.js'
+
 export default({
   setup(){
-      
+    const time = ref("")
+    const intensity = ref()
+    const journal = ref("")
+
+    const create = () => {
+      const auth = getAuth()
+      let user = auth.currentUser.uid
+      createReport(user, 'Bleeding', time.value, intensity.value, journal.value)
+    }
+
+    return{
+      create, time, time, intensity, journal
+    }
   }
 });
 </script>

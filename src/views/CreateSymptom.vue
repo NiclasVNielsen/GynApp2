@@ -24,7 +24,7 @@
 
 <script>
 import { ref } from 'vue'
-import { getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth"
 import { createSymptom } from '@/main.js'
 
 export default({
@@ -32,8 +32,8 @@ export default({
     const name = ref("")
 
     const create = () => {
-      const auth = getAuth();
-      let user = auth.currentUser.uid;
+      const auth = getAuth()
+      let user = auth.currentUser.uid
       createSymptom(user, name.value)
     }
 
