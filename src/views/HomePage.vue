@@ -1,6 +1,6 @@
 <template>
   <header class="spaceBoth">
-    <h1 style="line-height: .8em">
+    <h1 style="line-height: .8em; font-weight: 700">
       Hello, {{ name }}! <br>
       <span style="font-size: 16px">{{currentDate.getDate()}}. {{monthNames[currentDate.getMonth()]}}, {{currentDate.getFullYear()}}</span>
     </h1>
