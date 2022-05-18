@@ -35,7 +35,7 @@ export default({
     const create = () => {
       const auth = getAuth()
       let user = auth.currentUser.uid
-      createSymptom(user, name.value, route.params.type)
+      createSymptom(user, name.value, route.params.type, "bug")
     }
 
     const route = useRoute()

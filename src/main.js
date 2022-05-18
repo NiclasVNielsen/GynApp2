@@ -110,7 +110,7 @@ export const getSymptomsByCategory = async (id, category) => {
   }
 }
 
-export const createSymptom = async (id, name, type) => {
+export const createSymptom = async (id, name, type, icon) => {
   try {
     const user = []
     const symptoms = []
@@ -129,7 +129,8 @@ export const createSymptom = async (id, name, type) => {
         'intensity': 0,
         'time': 'May 17, 2022 at 4:52:00 PM UTC+2'
       }],
-      type: type
+      type: type,
+      icon: icon
     })
 
     usersCollection.doc(user[0]).update({
