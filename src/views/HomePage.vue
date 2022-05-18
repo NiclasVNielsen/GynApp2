@@ -40,7 +40,7 @@
             <template v-for="(symptom) in allSymptoms" :key="symptom">
               <template v-if="symptom.type == types.name">
                 <div class="symptomThumb">
-                  <a href="/createreport">
+                  <a :href="'/createreport/' + symptom.name">
                     <figure class="progCircle">
                       <div class="pie animate no-round" :style="{'--p': symptom.reports.sort( orderDates )[0].intensity * 10}"
                       style="--c:#3D5BCD; position: relative">

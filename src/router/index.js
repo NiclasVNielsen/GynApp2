@@ -21,7 +21,7 @@ const routes = [
     component: CreateSymptom
   },
   {
-    path: '/createreport',
+    path: '/createreport/:symptom',
     name: 'createreport',
     component: CreateReport
   },

@@ -36,6 +36,7 @@
 import { ref } from 'vue'
 import { getAuth } from "firebase/auth"
 import { createReport } from '@/main.js'
+import { useRoute } from 'vue-router'
 
 export default({
   setup(){
@@ -43,11 +44,14 @@ export default({
     const intensity = ref()
     const journal = ref("")
 
+    const route = useRoute()
+
     const create = () => {
       const auth = getAuth()
       let user = auth.currentUser.uid
-      createReport(user, 'Bleeding' /* <- Need to be filled dynamicly */, time.value, intensity.value, journal.value)
+      createReport(user, route.params.symptom, time.value, intensity.value, journal.value)
     }
+
 
     return{
       create, time, time, intensity, journal
