@@ -44,7 +44,7 @@
                     <figure class="progCircle">
                       <div class="pie animate no-round" :style="{'--p': symptom.reports.sort( orderDates )[0].intensity * 10, '--c': type.color}"
                       style="position: relative">
-                        <ion-icon name="aperture" :style="{'color': type.color}"></ion-icon>
+                        <ion-icon :name="symptom.icon" :style="{'color': type.color}"></ion-icon>
                       </div>
                     </figure>
                     <h3>
@@ -131,7 +131,7 @@ export default({
       }
       return 0;
     }
-      
+
     const currentDate = new Date()
     const monthNames = ['Januar', 'Febuar', 'Marts', 'April', 'Maj', 'Juni', 'July', 'August', 'September', 'Oktober', 'November', 'December']
 
