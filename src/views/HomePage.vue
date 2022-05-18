@@ -2,28 +2,28 @@
   <header class="spaceBoth">
     <h1 style="line-height: .8em">
       Hello, {{ name }}! <br>
-      <span style="font-size: 16px">11 april, 2022</span>
+      <span style="font-size: 16px">{{currentDate.getDate()}}. {{monthNames[currentDate.getMonth()]}}, {{currentDate.getFullYear()}}</span>
     </h1>
     <ul class="dayCalendar">
-      <li class="target">
+      <li :class="currentDate.getDay() == 0 ? 'target' : ''">
         man
       </li>
-      <li>
+      <li :class="currentDate.getDay() == 1 ? 'target' : ''">
         tir
       </li>
-      <li>
+      <li :class="currentDate.getDay() == 2 ? 'target' : ''">
         ons
       </li>
-      <li>
+      <li :class="currentDate.getDay() == 3 ? 'target' : ''">
         tor
       </li>
-      <li>
+      <li :class="currentDate.getDay() == 4 ? 'target' : ''">
         fre
       </li>
-      <li>
+      <li :class="currentDate.getDay() == 5 ? 'target' : ''">
         lør
       </li>
-      <li>
+      <li :class="currentDate.getDay() == 6 ? 'target' : ''">
         søn
       </li>
     </ul>
@@ -132,8 +132,11 @@ export default({
       return 0;
     }
       
+    const currentDate = new Date()
+    const monthNames = ['Januar', 'Febuar', 'Marts', 'April', 'Maj', 'Juni', 'July', 'August', 'September', 'Oktober', 'November', 'December']
+
     return {
-      name, symptomTypes, allSymptoms, orderDates
+      name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames
     }
   },
   name: 'HomePage',
