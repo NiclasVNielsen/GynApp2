@@ -51,7 +51,6 @@
     <section>
       <template v-for="type in symptomTypes" :key="type.order">
         <template v-if="type.type == 'symptom'">
-
           <h2 class="spaceLeft" @click="showOverlay(type.name, 'cat')">
             {{type.name}}
           </h2>
@@ -169,7 +168,7 @@ export default({
           getUserById(user.uid)
             .then(data => {
               name.value = data[0].Name
-              symptomTypes.value = data[0].SymptomTypes
+              symptomTypes.value = data[0].SymptomTypes.sort( orderTypes )
               allSymptoms.value = data[0].Symptoms
               uid.value = user.uid
             })
@@ -183,6 +182,15 @@ export default({
     const allSymptoms = ref([])
     const uid = ref("")
 
+    function orderTypes( a, b ) {
+      if ( a.order < b.order ){
+        return -1;
+      }
+      if ( a.order > b.order ){
+        return 1;
+      }
+      return 0;
+    }
 
     function orderDates( a, b ) {
       if ( a.time > b.time ){
@@ -242,7 +250,7 @@ export default({
     }
 
     return {
-      name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout, drugUpdate, hideOverlay, showOverlay, overlayName, overlayTitle, editFromOverlay
+      name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout, drugUpdate, hideOverlay, showOverlay, overlayName, overlayTitle, editFromOverlay, orderTypes
     }
   },
   name: 'HomePage',
