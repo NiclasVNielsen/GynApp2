@@ -47,6 +47,12 @@ export const db = firebaseApp.firestore();
 
 const usersCollection = db.collection('users')
 
+export const createUser = async (uid) => {
+  return usersCollection.add({
+      uid: uid
+  })
+}
+
 export const getUserById = async (id) => {
   try {
     const user = []
