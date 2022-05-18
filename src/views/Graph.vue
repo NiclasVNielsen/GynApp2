@@ -42,9 +42,11 @@
   </h4>
   <div class="selectorContainer">
     <template v-for="(category, index) in categories" :key="category">
+      <template v-if="category.type != 'drug'">
         <div @click="selectCategory(index)" :class="targetCategory.name == category.name ? 'target' : ''">
             {{category.name}}
         </div>
+      </template>
     </template>
   </div>
   <h4 class="selectorTitle spaceBoth">
@@ -52,9 +54,9 @@
   </h4>
   <div class="selectorContainer">
     <template v-for="(symptom, index) in symptoms" :key="symptom">
-        <div @click="selectSymptom(index)" :class="targetSymptom.name == symptom.name ? 'target' : ''">
-            {{symptom.name}}
-        </div>
+      <div @click="selectSymptom(index)" :class="targetSymptom.name == symptom.name ? 'target' : ''">
+          {{symptom.name}}
+      </div>
     </template>
   </div>
 
