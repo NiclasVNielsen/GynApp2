@@ -16,7 +16,7 @@ const routes = [
     component: HomePage
   },
   {
-    path: '/createsymptom',
+    path: '/createsymptom/:type',
     name: 'createsymptom',
     component: CreateSymptom
   },

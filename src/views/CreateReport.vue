@@ -46,7 +46,7 @@ export default({
     const create = () => {
       const auth = getAuth()
       let user = auth.currentUser.uid
-      createReport(user, 'Bleeding', time.value, intensity.value, journal.value)
+      createReport(user, 'Bleeding' /* <- Need to be filled dynamicly */, time.value, intensity.value, journal.value)
     }
 
     return{

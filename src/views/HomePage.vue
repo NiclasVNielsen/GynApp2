@@ -56,7 +56,7 @@
             </template>
           <!-- Loop end -->
           <div class="symptomThumb">
-            <a href="/createsymptom">
+            <a :href="'/createsymptom/' + types.name">
               <figure class="progCircle">
                 <div class="addSymptom">
                   <ion-icon name="add-circle"></ion-icon>
