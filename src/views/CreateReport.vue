@@ -50,6 +50,7 @@ export default({
       const auth = getAuth()
       let user = auth.currentUser.uid
       createReport(user, route.params.symptom, time.value, intensity.value, journal.value)
+      window.location.href = '/home'
     }
 
 

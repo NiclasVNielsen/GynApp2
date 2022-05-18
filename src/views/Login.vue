@@ -13,9 +13,6 @@
             </form>
         </div>
     </div>
-    <a href="/home">
-        Homepage
-    </a>
 </template>
 
 <script>

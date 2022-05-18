@@ -20,7 +20,7 @@
     "core-js": "^3.6.5",
     "firebase": "^9.8.1",
     "vue": "^3.2.21",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.15"
   },
   "devDependencies": {
     "@capacitor/cli": "3.5.1",

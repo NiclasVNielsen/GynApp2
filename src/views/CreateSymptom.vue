@@ -26,19 +26,21 @@
 import { ref } from 'vue'
 import { getAuth } from "firebase/auth"
 import { createSymptom } from '@/main.js'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 export default({
   setup(){
     const name = ref("")
+      
+    const route = useRoute()
+    const router = useRouter()
 
     const create = () => {
       const auth = getAuth()
       let user = auth.currentUser.uid
       createSymptom(user, name.value, route.params.type, "bug")
+      router.push({ name: 'Home' })
     }
-
-    const route = useRoute()
 
     
 
