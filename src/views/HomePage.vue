@@ -1,4 +1,22 @@
 <template>
+  <div id="overlay">
+    <div id="menu">
+      <form @submit.prevent="editFromOverlay" class="spaceBoth">
+        <h6>
+          {{ overlayTitle }}
+        </h6>
+        <input type="text" placeholder="Navn" v-model="overlayName">
+        <div class="actions">
+          <a @click="hideOverlay">
+            <ion-icon name="arrow-back"></ion-icon>
+          </a>
+          <button type="submit">
+            <ion-icon name="checkmark"></ion-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
   <header class="spaceBoth">
     <h1 style="line-height: .8em; font-weight: 700">
       Hello, {{ name }}! <br>
@@ -34,7 +52,7 @@
       <template v-for="type in symptomTypes" :key="type.order">
         <template v-if="type.type == 'symptom'">
 
-          <h2 class="spaceLeft">
+          <h2 class="spaceLeft" @click="showOverlay(type.name, 'cat')">
             {{type.name}}
           </h2>
           <section class="sympContainer">
@@ -74,7 +92,7 @@
         </template>
         <template v-if="type.type == 'drug'">
 
-          <h2 class="spaceLeft">
+          <h2 class="spaceLeft" @click="showOverlay(type.name, 'cat')">
             {{type.name}}
           </h2>
           <section class="sympContainer">
@@ -141,7 +159,7 @@
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
-import { getUserById, updateDrug } from '../main'
+import { getUserById, updateDrug, editSymptomCategory } from '../main'
 export default({
   setup(){
     const isLoggedIn = ref(false)
@@ -198,8 +216,33 @@ export default({
       updateDrug(uid.value, name)
     }
 
+    const hideOverlay = () => {
+      document.querySelector('#overlay').style.display="none"
+    }
+
+    const overlayTitle = ref("")
+    const overlayName = ref("")
+    let originalName;
+    const showOverlay = (name, title) => {
+      document.querySelector('#overlay').style.display="block"
+      overlayName.value = name
+      originalName = name
+      if(title == 'cat'){
+        overlayTitle.value = "Rediger kategori"
+        editType = "cat"
+      }
+    }
+
+    let editType;
+    const editFromOverlay = () => {
+      if(editType == "cat"){
+        console.log('condition entered')
+        editSymptomCategory(uid.value, originalName, overlayName.value)
+      }
+    }
+
     return {
-      name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout, drugUpdate
+      name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout, drugUpdate, hideOverlay, showOverlay, overlayName, overlayTitle, editFromOverlay
     }
   },
   name: 'HomePage',
@@ -313,5 +356,54 @@ h2
     font-size: 60px !important
     color: #E2E2E2
 
-
+#overlay
+  display: none
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100vh
+  background: rgba(0, 0, 0, 0.5)
+  z-index: 100
+  #menu
+    position: absolute
+    bottom: 0
+    width: 100%
+    background: #F2F2F2
+    border-radius: 20px 20px 0 0
+    form
+      h6
+        text-align: center
+        font-size: 24px
+        font-weight: 700
+      input
+        display: block
+        background: #F6F6F6
+        border: none
+        width: 100%
+        padding: 16.5px
+        border-radius: 20px
+        color: var(--overskrift)
+        margin-bottom: 22px
+        margin-top: 20px
+      .actions
+        margin-bottom: 32px
+        display: flex
+        justify-content: center
+        a, button
+          display: block
+          width: 61px
+          height: 61px
+          border-radius: 50%
+          display: flex
+          justify-content: center
+          align-items: center
+          font-size: 30px
+          margin: 3px
+        a
+          background: #F6F6F6
+          color: #ADADAD
+        button
+          background: #CD573D
+          color: #FFF
 </style>

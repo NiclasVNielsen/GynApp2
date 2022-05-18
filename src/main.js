@@ -243,6 +243,99 @@ export const updateDrug = async (uid, trackerName) => {
 }
 
 
+export const reTypeSymptoms = async (uid, categoryName, newName) => {
+  try {
+    console.log('editSymptomCategory entered')
+    const user = []
+    const symptoms = []
+    const symptom = [] /* This can be more then one in this case */
+    const unchangedSymptom = [] /* loops got messed up so this is the easiest fix */
+
+    let q = query(collection(db, "users"), where("uid", "==", uid))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      symptoms.push(doc.data().Symptoms)
+    })
+
+    for(let i = 0; i < symptoms[0].length; i++){
+      if(symptoms[0][i].type == categoryName){
+        symptom.push(symptoms[0][i])
+      }else{
+        unchangedSymptom.push(symptoms[0][i])
+      }
+    }
+
+    /* Ehmm we have to get the type aswell */
+    for(let i = 0; i < symptom.length; i++){
+      const newSymptom = {
+        'icon': symptom[i].icon,
+        'name': symptom[i].name,
+        'reports': symptom[i].reports,
+        'type': newName
+      }
+      console.log(newSymptom)
+      unchangedSymptom.push(newSymptom)
+    }
+
+    console.log(unchangedSymptom)
+
+    usersCollection.doc(user[0]).update({
+      Symptoms: unchangedSymptom
+    });
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
+export const editSymptomCategory = async (uid, categoryName, newName) => {
+  try {
+    console.log('editSymptomCategory entered')
+    const user = []
+    const types = []
+    const type = []
+
+    let q = query(collection(db, "users"), where("uid", "==", uid))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      types.push(doc.data().SymptomTypes)
+    })
+
+    for(let i = 0; i < types[0].length; i++){
+      if(types[0][i].name == categoryName){
+        type.push(types[0][i])
+        types[0].splice(i, 1)
+      }
+    }
+
+    const newType = {
+      'color': type[0].color,
+      'name': newName,
+      'order': type[0].order,
+      'type': type[0].type
+    }
+
+
+    types[0].push(newType)
+
+    reTypeSymptoms(uid, categoryName, newName)
+
+    usersCollection.doc(user[0]).update({
+      SymptomTypes: types[0]
+    });
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
+
 
 const app = createApp(App)
   .use(IonicVue)
