@@ -35,7 +35,7 @@
 <script>
 import { ref } from 'vue'
 import { getAuth } from "firebase/auth"
-import { createReport } from '@/main.js'
+import { createReport } from '../main'
 import { useRoute } from 'vue-router'
 
 export default({

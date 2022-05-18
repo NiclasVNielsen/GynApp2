@@ -81,7 +81,7 @@
             <!-- Loop start -->
               <template v-for="(symptom) in allSymptoms" :key="symptom">
                 <template v-if="symptom.type == type.name">
-                  <div class="medBox">
+                  <div class="medBox" @click="drugUpdate(symptom.name)">
                     <div class="title">
                       <p>
                         {{symptom.name}}
@@ -96,8 +96,8 @@
                         <path d="M25 4.28932C27.7464 1.54291 31.4713 0 35.3553 0C39.2393 0 42.9643 1.54291 45.7107 4.28932C48.4571 7.03573 50 10.7607 50 14.6447C50 18.5287 48.4571 22.2536 45.7107 25L25 45.7107C23.6401 47.0706 22.0257 48.1493 20.2489 48.8852C18.4722 49.6212 16.5678 50 14.6447 50C10.7607 50 7.03573 48.4571 4.28932 45.7107C1.54291 42.9643 0 39.2393 0 35.3553C0 31.4713 1.54291 27.7464 4.28932 25L25 4.28932ZM33.8784 30.9161L42.7484 22.0461C44.6961 20.0818 45.7864 17.426 45.7808 14.6598C45.7751 11.8936 44.6739 9.24225 42.7182 7.28597C40.7625 5.32968 38.1114 4.22775 35.3452 4.2213C32.579 4.21486 29.9229 5.30442 27.9581 7.25158L19.0839 16.1216L33.8784 30.9161ZM24.3891 36.9411C24.5834 36.7466 24.7374 36.5157 24.8424 36.2617C24.9474 36.0076 25.0014 35.7354 25.0012 35.4606C25.001 35.1857 24.9466 34.9135 24.8413 34.6596C24.7359 34.4058 24.5815 34.1751 24.387 33.9809C24.1925 33.7867 23.9617 33.6327 23.7077 33.5276C23.4536 33.4226 23.1814 33.3687 22.9065 33.3689C22.6317 33.3691 22.3595 33.4234 22.1056 33.5288C21.8518 33.6341 21.6211 33.7885 21.4269 33.983L15.1509 40.259C14.9567 40.4535 14.8027 40.6843 14.6977 40.9383C14.5927 41.1924 14.5387 41.4646 14.5389 41.7395C14.5393 42.2946 14.7602 42.8269 15.153 43.2191C15.5458 43.6114 16.0784 43.8315 16.6335 43.8311C17.1887 43.8307 17.7209 43.6098 18.1132 43.217L24.3891 36.9411Z" fill="#E31515"/>
                       </svg>
                       <div class="pillContainer">
-                        <template v-for="pills in symptom.amount" :key="pills">
-                          <div class="pill"></div>
+                        <template v-for="(pills, index) in symptom.amount" :key="pills">
+                          <div class="pill" :class="index + 1 <= symptom.taken ? 'taken' : ''"></div>
                         </template>
                       </div>
                       <!-- justify spacebetween -->
@@ -141,7 +141,7 @@
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
-import { getUserById } from '../main'
+import { getUserById, updateDrug } from '../main'
 export default({
   setup(){
     const isLoggedIn = ref(false)
@@ -153,6 +153,7 @@ export default({
               name.value = data[0].Name
               symptomTypes.value = data[0].SymptomTypes
               allSymptoms.value = data[0].Symptoms
+              uid.value = user.uid
             })
         } else {
           isLoggedIn.value = false
@@ -162,6 +163,7 @@ export default({
     const name = ref("")
     const symptomTypes = ref([])
     const allSymptoms = ref([])
+    const uid = ref("")
 
 
     function orderDates( a, b ) {
@@ -192,8 +194,12 @@ export default({
         }
     });
 
+    const drugUpdate = (name) => {
+      updateDrug(uid.value, name)
+    }
+
     return {
-      name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout
+      name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout, drugUpdate
     }
   },
   name: 'HomePage',
@@ -292,6 +298,8 @@ h2
         margin-left: 7px
         border-radius: 6px
         background: #E31515
+      .taken
+        background: #E2E2E2
 
 .addSymptom
   border-radius: 50%

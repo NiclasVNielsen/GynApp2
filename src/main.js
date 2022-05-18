@@ -195,6 +195,52 @@ export const createReport = async (id, trackerName, time, intensity, journal) =>
     err => console.error('This is burning🔥 ', err)
   }
 }
+export const updateDrug = async (uid, trackerName) => {
+  try {
+    const user = []
+    const symptoms = []
+    const symptom = []
+
+    let q = query(collection(db, "users"), where("uid", "==", uid))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      symptoms.push(doc.data().Symptoms)
+    })
+
+    for(let i = 0; i < symptoms[0].length; i++){
+      if(symptoms[0][i].name == trackerName){
+        symptom.push(symptoms[0][i])
+        symptoms[0].splice(i, 1)
+      }
+    }
+
+    let newTaken = symptom[0].taken + 1
+    if(newTaken > symptom[0].amount){
+      newTaken = 0
+    }
+
+    const newSymptom = {
+      'amount': symptom[0].amount,
+      'taken': newTaken,
+      'dose': symptom[0].dose,
+      'name': symptom[0].name,
+      'type': symptom[0].type
+    }
+
+
+    symptoms[0].push(newSymptom)
+
+    usersCollection.doc(user[0]).update({
+      Symptoms: symptoms[0]
+    });
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
 
 
 
