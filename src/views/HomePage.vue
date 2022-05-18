@@ -31,20 +31,20 @@
 
   <main >
     <section>
-      <template v-for="types in symptomTypes" :key="types.order">
+      <template v-for="type in symptomTypes" :key="type.order">
         <h2 class="spaceLeft">
-          {{types.name}}
+          {{type.name}}
         </h2>
         <section class="sympContainer">
           <!-- Loop start -->
             <template v-for="(symptom) in allSymptoms" :key="symptom">
-              <template v-if="symptom.type == types.name">
+              <template v-if="symptom.type == type.name">
                 <div class="symptomThumb">
                   <a :href="'/createreport/' + symptom.name">
                     <figure class="progCircle">
-                      <div class="pie animate no-round" :style="{'--p': symptom.reports.sort( orderDates )[0].intensity * 10}"
-                      style="--c:#3D5BCD; position: relative">
-                        <ion-icon name="aperture" style="color: #3D5BCD"></ion-icon>
+                      <div class="pie animate no-round" :style="{'--p': symptom.reports.sort( orderDates )[0].intensity * 10, '--c': type.color}"
+                      style="position: relative">
+                        <ion-icon name="aperture" :style="{'color': type.color}"></ion-icon>
                       </div>
                     </figure>
                     <h3>
@@ -56,7 +56,7 @@
             </template>
           <!-- Loop end -->
           <div class="symptomThumb">
-            <a :href="'/createsymptom/' + types.name">
+            <a :href="'/createsymptom/' + type.name">
               <figure class="progCircle">
                 <div class="addSymptom">
                   <ion-icon name="add-circle"></ion-icon>
