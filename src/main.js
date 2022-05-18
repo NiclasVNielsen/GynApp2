@@ -127,7 +127,7 @@ export const createSymptom = async (id, name, type, icon) => {
       name: name,
       reports: [{
         'intensity': 0,
-        'time': 'May 17, 2022 at 4:52:00 PM UTC+2'
+        'time': '2022-05-18T13:01'
       }],
       type: type,
       icon: icon
