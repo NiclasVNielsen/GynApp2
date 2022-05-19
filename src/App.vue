@@ -78,4 +78,8 @@ nav
   display: flex
   justify-content: space-between
   align-items: center
+
+.ion-page
+  justify-content: flex-start !important
+
 </style>
