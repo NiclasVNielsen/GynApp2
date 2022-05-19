@@ -1,7 +1,8 @@
 <template>
   <div class="sudoBody">
     <ion-app>
-      <ion-router-outlet />
+      <router-view/>
+      <!-- <ion-router-outlet /> Comment:^not  -->
     </ion-app>
   </div>
 </template>
