@@ -158,10 +158,11 @@
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
-import { getUserById, updateDrug, editSymptomCategory } from '../main'
+import { getUserById, updateDrug, editSymptomCategory, drugAutoReportAndDailyReset } from '../main'
 export default({
   setup(){
     const isLoggedIn = ref(false)
+
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           isLoggedIn.value = true
@@ -171,6 +172,7 @@ export default({
               symptomTypes.value = data[0].SymptomTypes.sort( orderTypes )
               allSymptoms.value = data[0].Symptoms
               uid.value = user.uid
+              drugAutoReportAndDailyReset(uid.value)
             })
         } else {
           isLoggedIn.value = false
@@ -181,6 +183,7 @@ export default({
     const symptomTypes = ref([])
     const allSymptoms = ref([])
     const uid = ref("")
+
 
     function orderTypes( a, b ) {
       if ( a.order < b.order ){

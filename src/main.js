@@ -335,6 +335,120 @@ export const editSymptomCategory = async (uid, categoryName, newName) => {
   }
 }
 
+export const drugAutoReportAndDailyReset = async (uid) => {
+  try {
+
+    let types;
+    let symptoms;
+    
+    const user = []
+    const drugTypes = []
+    const drugSymptoms = []
+    const drugSymptomsIndexes = []
+
+    let q = query(collection(db, "users"), where("uid", "==", uid))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      types = (doc.data().SymptomTypes)
+      symptoms = (doc.data().Symptoms)
+    })
+
+    for(let i = 0; i < types.length; i++){
+      if(types[i].type == "drug"){
+        drugTypes.push(types[i])
+      }
+    }
+
+    /* Drug symptoms are in drugSymptoms */
+    for(let a = 0; a < drugTypes.length; a++){
+      for(let i = 0; i < symptoms.length; i++){
+        if(symptoms[i].type == drugTypes[a].name){
+          drugSymptoms.push(symptoms[i])
+          drugSymptomsIndexes.push(i)
+        }
+      }
+    }
+
+    /* order drugSymptomsIndexes 2 -> 1 */
+    drugSymptomsIndexes.sort().reverse();
+
+    /* None drug symptoms are in symptoms */
+    for(let i = 0; i < drugSymptomsIndexes.length; i++){
+      symptoms.splice(drugSymptomsIndexes[i], 1)
+    }
+    
+
+    /* 
+      Psuedo Code
+      - if current day < lastUpdated
+      - reports.push ( { lastUpdated, taken }  )
+      - taken = 0
+      - last lastUpdated = current day
+
+      - if lastUpdated == 0{
+          lastUpdated = currendt date
+        }
+    */
+    const time = `${new Date().getFullYear()}${new Date().getMonth() < 10 ? "0" : ""}${new Date().getMonth()}${new Date().getDate() < 10 ? "0" : ""}${new Date().getDate()}`
+    for(let i = 0; i < drugSymptoms.length; i++){
+      /* Set default if none of the conditions are true */
+      let newSymptom = {
+        'amount': drugSymptoms[i].amount,
+        'dose': drugSymptoms[i].dose,
+        'lastUpdated': drugSymptoms[i].lastUpdated,
+        'name': drugSymptoms[i].name,
+        'reports': drugSymptoms[i].reports,
+        'taken': drugSymptoms[i].taken,
+        'type': drugSymptoms[i].type,
+      }
+      if(drugSymptoms[i].lastUpdated < time && drugSymptoms[i].lastUpdated != 0){
+        /* Create a report and update lastUpdated */
+        drugSymptoms[i].reports.push({
+          'date': drugSymptoms[i].lastUpdated,
+          'amount': drugSymptoms[i].amount,
+          'taken': drugSymptoms[i].taken
+        })
+        newSymptom = {
+          'amount': drugSymptoms[i].amount,
+          'dose': drugSymptoms[i].dose,
+          'lastUpdated': time,
+          'name': drugSymptoms[i].name,
+          'reports': drugSymptoms[i].reports,
+          'taken': 0,
+          'type': drugSymptoms[i].type,
+        }
+      }
+      if(drugSymptoms[i].lastUpdated == 0){
+        /* In case lastUpdated is null we initiate it */
+        newSymptom = {
+          'amount': drugSymptoms[i].amount,
+          'dose': drugSymptoms[i].dose,
+          'lastUpdated': time,
+          'name': drugSymptoms[i].name,
+          'reports': drugSymptoms[i].reports,
+          'taken': drugSymptoms[i].taken,
+          'type': drugSymptoms[i].type,
+        }
+      }
+
+      symptoms.push(newSymptom)
+    }
+    
+    console.log('server push')
+    console.log(symptoms)
+
+    usersCollection.doc(user[0]).update({
+      Symptoms: symptoms
+    });
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
 
 
 const app = createApp(App)
