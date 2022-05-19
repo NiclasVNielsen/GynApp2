@@ -11,9 +11,9 @@
     <input type="text" placeholder="Navn" name="name" id="name" v-model="name">
     <!-- Needs type aswell -->
     <div class="actions">
-      <a href="/home">
+      <router-link to="/home">
         <ion-icon name="arrow-back"></ion-icon>
-      </a>
+      </router-link>
       <button type="submit">
         <ion-icon name="checkmark"></ion-icon>
       </button>

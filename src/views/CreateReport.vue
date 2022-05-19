@@ -21,9 +21,9 @@
     </label>
     <textarea name="journal" id="journal" cols="30" rows="10" v-model="journal"></textarea>
     <div class="actions">
-      <a href="/home">
+      <router-link to="/home">
         <ion-icon name="arrow-back"></ion-icon>
-      </a>
+      </router-link>
       <button type="submit">
         <ion-icon name="checkmark"></ion-icon>
       </button>
