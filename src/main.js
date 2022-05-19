@@ -337,7 +337,6 @@ export const editSymptomCategory = async (uid, categoryName, newName) => {
 
 export const drugAutoReportAndDailyReset = async (uid) => {
   try {
-
     let types;
     let symptoms;
     
