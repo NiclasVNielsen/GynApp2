@@ -23,25 +23,25 @@
       <span style="font-size: 16px">{{currentDate.getDate()}}. {{monthNames[currentDate.getMonth()]}}, {{currentDate.getFullYear()}}</span>
     </h1>
     <ul class="dayCalendar">
-      <li :class="currentDate.getDay() == 0 ? 'target' : ''">
+      <li :class="currentDate.getDay() == 1 ? 'target' : ''">
         man
       </li>
-      <li :class="currentDate.getDay() == 1 ? 'target' : ''">
+      <li :class="currentDate.getDay() == 2 ? 'target' : ''">
         tir
       </li>
-      <li :class="currentDate.getDay() == 2 ? 'target' : ''">
+      <li :class="currentDate.getDay() == 3 ? 'target' : ''">
         ons
       </li>
-      <li :class="currentDate.getDay() == 3 ? 'target' : ''">
+      <li :class="currentDate.getDay() == 4 ? 'target' : ''">
         tor
       </li>
-      <li :class="currentDate.getDay() == 4 ? 'target' : ''">
+      <li :class="currentDate.getDay() == 5 ? 'target' : ''">
         fre
       </li>
-      <li :class="currentDate.getDay() == 5 ? 'target' : ''">
+      <li :class="currentDate.getDay() == 6 ? 'target' : ''">
         lør
       </li>
-      <li :class="currentDate.getDay() == 6 ? 'target' : ''">
+      <li :class="currentDate.getDay() == 0 ? 'target' : ''">
         søn
       </li>
     </ul>
