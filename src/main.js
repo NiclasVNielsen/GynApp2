@@ -435,9 +435,6 @@ export const drugAutoReportAndDailyReset = async (uid) => {
 
       symptoms.push(newSymptom)
     }
-    
-    console.log('server push')
-    console.log(symptoms)
 
     usersCollection.doc(user[0]).update({
       Symptoms: symptoms
