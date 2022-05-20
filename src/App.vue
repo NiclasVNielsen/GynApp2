@@ -79,6 +79,10 @@ nav
   justify-content: space-between
   align-items: center
 
+main
+  overflow-y: scroll !important
+  padding-bottom: 100px
+
 .ion-page
   justify-content: flex-start !important
 
