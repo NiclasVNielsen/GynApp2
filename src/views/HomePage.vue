@@ -14,6 +14,10 @@
             <ion-icon name="checkmark"></ion-icon>
           </button>
         </div>
+        <!-- Need styling and security make sure button! -->
+        <div style="background: red; padding: 20px; color: #000" @click="deleteSymptomCategory(uid, overlayName)">
+          Delete
+        </div>
       </form>
     </div>
   </div>
@@ -158,7 +162,7 @@
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
-import { getUserById, updateDrug, editSymptomCategory, drugAutoReportAndDailyReset } from '../main'
+import { getUserById, updateDrug, editSymptomCategory, drugAutoReportAndDailyReset, deleteSymptomCategory } from '../main'
 export default({
   setup(){
     const isLoggedIn = ref(false)
@@ -253,7 +257,7 @@ export default({
     }
 
     return {
-      name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout, drugUpdate, hideOverlay, showOverlay, overlayName, overlayTitle, editFromOverlay, orderTypes
+      name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout, drugUpdate, hideOverlay, showOverlay, overlayName, overlayTitle, editFromOverlay, orderTypes, deleteSymptomCategory, uid
     }
   },
   name: 'HomePage',

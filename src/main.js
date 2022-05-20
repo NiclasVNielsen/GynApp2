@@ -245,7 +245,6 @@ export const updateDrug = async (uid, trackerName) => {
 
 export const reTypeSymptoms = async (uid, categoryName, newName) => {
   try {
-    console.log('editSymptomCategory entered')
     const user = []
     const symptoms = []
     const symptom = [] /* This can be more then one in this case */
@@ -291,9 +290,44 @@ export const reTypeSymptoms = async (uid, categoryName, newName) => {
   }
 }
 
+export const deleteSymptomsByType = async (uid, type) => {
+  try {
+    const user = []
+    const symptoms = []
+    const symptom = [] /* This can be more then one in this case */
+    const filteredSymptom = [] /* loops got messed up so this is the easiest fix */
+
+    let q = query(collection(db, "users"), where("uid", "==", uid))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      symptoms.push(doc.data().Symptoms)
+    })
+
+    for(let i = 0; i < symptoms[0].length; i++){
+      if(symptoms[0][i].type == type){
+        symptom.push(symptoms[0][i])
+      }else{
+        filteredSymptom.push(symptoms[0][i])
+      }
+    }
+
+    console.log('deleteSymptomsByType')
+    console.log(filteredSymptom)
+
+    usersCollection.doc(user[0]).update({
+      Symptoms: filteredSymptom
+    });
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
 export const editSymptomCategory = async (uid, categoryName, newName) => {
   try {
-    console.log('editSymptomCategory entered')
     const user = []
     const types = []
     const type = []
@@ -324,6 +358,47 @@ export const editSymptomCategory = async (uid, categoryName, newName) => {
     types[0].push(newType)
 
     reTypeSymptoms(uid, categoryName, newName)
+
+    usersCollection.doc(user[0]).update({
+      SymptomTypes: types[0]
+    });
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
+export const deleteSymptomCategory = async (uid, categoryName) => {
+  try {
+    console.log('meeeeeeeeeeep! 0')
+    console.log(uid)
+    console.log(categoryName)
+    const user = []
+    const types = []
+    const type = []
+
+    let q = query(collection(db, "users"), where("uid", "==", uid))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      types.push(doc.data().SymptomTypes)
+    })
+    console.log('meeeeeeeeeeep! 1')
+
+    for(let i = 0; i < types[0].length; i++){
+      if(types[0][i].name == categoryName){
+        type.push(types[0][i])
+        types[0].splice(i, 1)
+      }
+    }
+    console.log('meeeeeeeeeeep! 2')
+
+    deleteSymptomsByType(uid, categoryName)
+
+    console.log('deleteSymptomCategory')
+    console.log(types[0])
 
     usersCollection.doc(user[0]).update({
       SymptomTypes: types[0]
