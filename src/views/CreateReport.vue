@@ -11,7 +11,7 @@
     </div>
   </header>
   <form @submit.prevent="create">
-    <input type="datetime-local" v-model="time">
+    <input type="datetime-local" v-model="time" style="display: none"> <!-- Should give current time -->
     <label for="intensity">
       Intensitet
     </label>

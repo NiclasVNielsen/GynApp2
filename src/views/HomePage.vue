@@ -64,7 +64,7 @@
                 <template v-if="symptom.type == type.name">
                   <div class="symptomThumb">
                     <router-link :to="'/createreport/' + symptom.name">
-                      <figure class="progCircle">
+                      <figure class="progCircle" @touchstart="editSymptom(symptom.name)" @touchend="holdDownTimerInterupt">
                         <div class="pie animate no-round" :style="{'--p': symptom.reports.sort( orderDates )[0].intensity * 10, '--c': type.color}"
                         style="position: relative">
                           <ion-icon :name="symptom.icon" :style="{'color': type.color}"></ion-icon>
@@ -246,6 +246,10 @@ export default({
         overlayTitle.value = "Rediger kategori"
         editType = "cat"
       }
+      if(title == 'symp'){
+        overlayTitle.value = "Rediger symptom"
+        editType = "symp"
+      }
     }
 
     let editType;
@@ -256,8 +260,23 @@ export default({
       }
     }
 
+    let holdDownTimer;
+    const editSymptom = (name) => {
+      holdDownTimer = setTimeout(() => {
+        showOverlay(name, "symp")
+      }, 400);
+    }
+
+    const holdDownTimerInterupt = () => {
+      clearTimeout(holdDownTimer)
+    }
+
+
+
     return {
-      name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout, drugUpdate, hideOverlay, showOverlay, overlayName, overlayTitle, editFromOverlay, orderTypes, deleteSymptomCategory, uid
+      name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout, drugUpdate, hideOverlay, 
+      showOverlay, overlayName, overlayTitle, editFromOverlay, orderTypes, deleteSymptomCategory, uid,
+      editSymptom, holdDownTimerInterupt
     }
   },
   name: 'HomePage',
