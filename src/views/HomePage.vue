@@ -64,7 +64,7 @@
                 <template v-if="symptom.type == type.name">
                   <div class="symptomThumb">
                     <router-link :to="'/createreport/' + symptom.name">
-                      <figure class="progCircle" @touchstart="editSymptom(symptom.name)" @touchend="holdDownTimerInterupt">
+                      <figure class="progCircle" @touchstart="editSymptom(symptom.name)" @touchend="holdDownTimerInterupt" @touchmove="holdDownTimerInterupt">
                         <div class="pie animate no-round" :style="{'--p': symptom.reports.sort( orderDates )[0].intensity * 10, '--c': type.color}"
                         style="position: relative">
                           <ion-icon :name="symptom.icon" :style="{'color': type.color}"></ion-icon>
