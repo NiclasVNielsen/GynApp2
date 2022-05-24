@@ -451,6 +451,35 @@ export const deleteSymptomCategory = async (uid, categoryName) => {
   }
 }
 
+export const deleteSymptom = async (uid, symptomName) => {
+  try {
+    const user = []
+    const symptoms = []
+
+    let q = query(collection(db, "users"), where("uid", "==", uid))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      symptoms.push(doc.data().Symptoms)
+    })
+
+    for(let i = 0; i < symptoms[0].length; i++){
+      if(symptoms[0][i].name == symptomName){
+        symptoms[0].splice(i, 1)
+      }
+    }
+
+    usersCollection.doc(user[0]).update({
+      Symptoms: symptoms[0]
+    });
+  }
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
 export const drugAutoReportAndDailyReset = async (uid) => {
   try {
     let types;

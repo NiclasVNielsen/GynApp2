@@ -15,7 +15,7 @@
           </button>
         </div>
         <!-- Need styling and security make sure button! -->
-        <div style="background: red; padding: 20px; color: #000" @click="deleteSymptomCategory(uid, overlayName)">
+        <div style="background: red; padding: 20px; color: #000" @click="deleteFromOverlay">
           Delete
         </div>
       </form>
@@ -161,7 +161,7 @@
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
-import { getUserById, updateDrug, editSymptomCategory, editSymptom, drugAutoReportAndDailyReset, deleteSymptomCategory } from '../main'
+import { getUserById, updateDrug, editSymptomCategory, editSymptom, drugAutoReportAndDailyReset, deleteSymptomCategory, deleteSymptom } from '../main'
 export default({
   setup(){
     const isLoggedIn = ref(false)
@@ -261,6 +261,15 @@ export default({
       }
     }
 
+    const deleteFromOverlay = () => {
+      if(editType == "cat"){
+        deleteSymptomCategory(uid.value, originalName) 
+      }
+      if(editType == "symp"){
+        deleteSymptom(uid.value, originalName) 
+      }
+    }
+
     let holdDownTimer;
     const triggerEditSymptom = (name) => {
       holdDownTimer = setTimeout(() => {
@@ -276,7 +285,7 @@ export default({
 
     return {
       name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout, drugUpdate, hideOverlay, 
-      showOverlay, overlayName, overlayTitle, editFromOverlay, orderTypes, deleteSymptomCategory, uid,
+      showOverlay, overlayName, overlayTitle, editFromOverlay, orderTypes, deleteFromOverlay,
       triggerEditSymptom, holdDownTimerInterupt
     }
   },
