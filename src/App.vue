@@ -81,7 +81,7 @@ nav
 
 main
   overflow-y: scroll !important
-  padding-bottom: 100px
+  padding-bottom: 130px
 
 .ion-page
   justify-content: flex-start !important

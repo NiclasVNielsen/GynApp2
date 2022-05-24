@@ -131,6 +131,12 @@
         </template>
       </template>
     </section>
+    <div class="addCategory">
+      Brug for endnu en  kategori?
+      <div>
+        <ion-icon name="add-circle"></ion-icon>
+      </div>
+    </div>
   </main>
 
   <nav>
@@ -398,6 +404,23 @@ h2
   background: #F6F6F6 !important
   ion-icon
     font-size: 60px !important
+    color: #E2E2E2
+
+.addCategory
+  text-align: center
+  color: #B3B3B3
+  font-size: 10px
+  div
+    width: 38px
+    height: 38px
+    background: #F6F6F6
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12)
+    border-radius: 50%
+    display: flex
+    align-items: center
+    justify-content: center
+    margin: 3px auto 0
+    font-size: 24px
     color: #E2E2E2
 
 #overlay

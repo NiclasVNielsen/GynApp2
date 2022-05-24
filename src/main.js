@@ -53,11 +53,11 @@ export const createUser = async (uid) => {
   })
 }
 
-export const getUserById = async (id) => {
+export const getUserById = async (uid) => {
   try {
     const user = []
 
-    let q = query(collection(db, "users"), where("uid", "==", id))
+    let q = query(collection(db, "users"), where("uid", "==", uid))
     
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
@@ -71,11 +71,11 @@ export const getUserById = async (id) => {
   }
 }
 
-export const getCategoriesById = async (id) => {
+export const getCategoriesById = async (uid) => {
   try {
     const categories = []
 
-    let q = query(collection(db, "users"), where("uid", "==", id))
+    let q = query(collection(db, "users"), where("uid", "==", uid))
     
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
@@ -89,12 +89,12 @@ export const getCategoriesById = async (id) => {
   }
 }
 
-export const getSymptomsByCategory = async (id, category) => {
+export const getSymptomsByCategory = async (uid, category) => {
   try {
     const allSymptoms = []
     const filteredSymptoms = []
 
-    let q = query(collection(db, "users"), where("uid", "==", id))
+    let q = query(collection(db, "users"), where("uid", "==", uid))
     
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
@@ -116,12 +116,12 @@ export const getSymptomsByCategory = async (id, category) => {
   }
 }
 
-export const createSymptom = async (id, name, type, icon) => {
+export const createSymptomsCategory = async (uid, name, type, icon) => {
   try {
     const user = []
     const symptoms = []
 
-    let q = query(collection(db, "users"), where("uid", "==", id))
+    let q = query(collection(db, "users"), where("uid", "==", uid))
 
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
@@ -149,13 +149,46 @@ export const createSymptom = async (id, name, type, icon) => {
   }
 }
 
-export const createReport = async (id, trackerName, time, intensity, journal) => {
+export const createSymptom = async (uid, name, type, icon) => {
+  try {
+    const user = []
+    const symptoms = []
+
+    let q = query(collection(db, "users"), where("uid", "==", uid))
+
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      symptoms.push(doc.data().Symptoms)
+    })
+
+    symptoms[0].push({
+      name: name,
+      reports: [{
+        'intensity': 0,
+        'time': '2022-05-18T13:01'
+      }],
+      type: type,
+      icon: icon
+    })
+
+    usersCollection.doc(user[0]).update({
+      Symptoms: symptoms[0]
+    });
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
+export const createReport = async (uid, trackerName, time, intensity, journal) => {
   try {
     const user = []
     const symptoms = []
     const symptom = []
 
-    let q = query(collection(db, "users"), where("uid", "==", id))
+    let q = query(collection(db, "users"), where("uid", "==", uid))
     
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
