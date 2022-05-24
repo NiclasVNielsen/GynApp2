@@ -7,6 +7,7 @@ import CreateReport from '../views/CreateReport.vue'
 import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
 import Graph from '../views/Graph.vue'
+import Profile from '../views/Profile.vue'
 
 const routes = [
   {
@@ -52,6 +53,11 @@ const routes = [
     path: '/graph',
     name: 'Graph',
     component: Graph
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
   }
 ]
 
