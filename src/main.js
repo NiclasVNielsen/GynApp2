@@ -118,7 +118,7 @@ export const getSymptomsByCategory = async (uid, category) => {
 
 export const createSymptomsCategory = async (uid, name, type, icon) => {
   try {
-    const user = []
+    /* const user = []
     const symptoms = []
 
     let q = query(collection(db, "users"), where("uid", "==", uid))
@@ -141,7 +141,7 @@ export const createSymptomsCategory = async (uid, name, type, icon) => {
 
     usersCollection.doc(user[0]).update({
       Symptoms: symptoms[0]
-    });
+    }); */
   } 
 
   catch {
