@@ -8,9 +8,13 @@
     </div>
   </header>
   <form @submit.prevent="create">
-    <input type="text" placeholder="Navn" name="name" id="name" v-model="name">
+    <input type="text" placeholder="Navn" name="name" id="name" v-model="name" required>
+    <p>
+        Farve valg er på vej!
+    </p>
     <input type="text" placeholder="Farve" name="color" id="color" v-model="color">
-    <select name="type" id="type" v-model="type">
+    <select name="type" id="type" v-model="type" required>
+        <option value="" disabled selected>Type</option>
         <option value="symptom">Symptomer</option>
         <option value="drug">Medicin</option>
     </select>
