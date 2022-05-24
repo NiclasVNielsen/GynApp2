@@ -178,6 +178,39 @@ export const createSymptom = async (uid, name, type, icon) => {
   }
 }
 
+export const createDrug = async (uid, name, dose, amount, type) => {
+  try {
+    const user = []
+    const symptoms = []
+
+    let q = query(collection(db, "users"), where("uid", "==", uid))
+
+    console.log(typeof amount)
+
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      symptoms.push(doc.data().Symptoms)
+    })
+
+    symptoms[0].push({
+      name: name,
+      dose: dose,
+      amount: parseInt(amount),
+      type: type,
+      taken: 0
+    })
+
+    usersCollection.doc(user[0]).update({
+      Symptoms: symptoms[0]
+    });
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
 export const createReport = async (uid, trackerName, time, intensity, journal) => {
   try {
     const user = []
@@ -413,13 +446,24 @@ export const editSymptom = async (uid, symptomName, newName) => {
       }
     }
 
-    const newSymptom = {
-      'icon': symptom[0].icon,
-      'name': newName,
-      'reports': symptom[0].reports,
-      'type': symptom[0].type
+    let newSymptom;
+    if(!symptom[0].amount){
+      newSymptom = {
+        'icon': symptom[0].icon,
+        'name': newName,
+        'reports': symptom[0].reports,
+        'type': symptom[0].type
+      }
     }
-
+    if(symptom[0].amount){
+      newSymptom = {
+        'amount': symptom[0].amount,
+        'name': newName,
+        'dose': symptom[0].dose,
+        'type': symptom[0].type,
+        'taken': symptom[0].taken
+      }
+    }
 
     symptoms[0].push(newSymptom)
 

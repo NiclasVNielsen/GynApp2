@@ -102,7 +102,7 @@
             <!-- Loop start -->
               <template v-for="(symptom) in allSymptoms" :key="symptom">
                 <template v-if="symptom.type == type.name">
-                  <div class="medBox" @click="drugUpdate(symptom.name)">
+                  <div class="medBox" @click="drugUpdate(symptom.name)" @touchstart="triggerEditSymptom(symptom.name)" @touchend="holdDownTimerInterupt" @touchmove="holdDownTimerInterupt">
                     <div class="title">
                       <p :style="{'color': type.color}">
                         {{symptom.name}}
@@ -118,7 +118,7 @@
                       </svg>
                       <div class="pillContainer">
                         <template v-for="(pills, index) in symptom.amount" :key="pills">
-                          <div class="pill" :class="index + 1 <= symptom.taken ? 'taken' : ''" :style="{'background': type.color}"></div>
+                          <div class="pill" :class="index + 1 <= symptom.taken ? 'taken' : ''" :style="{'--notTaken': type.color}"></div>
                         </template>
                       </div>
                     </div>
@@ -126,6 +126,13 @@
                 </template>
               </template>
             <!-- Loop end -->
+            <div class="createDrug">
+              <router-link :to="'/createdrug/' + type.name">
+                <div class="addSymptom">
+                  <ion-icon name="add-circle"></ion-icon>
+                </div>
+              </router-link>
+            </div>
           </section>
 
         </template>
@@ -354,6 +361,27 @@ h2
       text-align: center
       font-size: 14px
 
+  .createDrug
+    margin-right: 20px
+    margin-bottom: 10px
+    margin-top: 16px
+    margin-bottom: 30px
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12)
+    width: 110px
+    min-width: 110px  
+    height: 110px
+    display: flex
+    justify-items: center
+    align-content: center
+    background: #F6F6F6
+    border-radius: 10px
+    position: relative
+    div
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
+
   .medBox
     margin-right: 20px
     margin-bottom: 10px
@@ -394,7 +422,7 @@ h2
         width: 12px
         margin-left: 7px
         border-radius: 6px
-        background: #E31515
+        background: var(--notTaken)
       .taken
         background: #E2E2E2
 

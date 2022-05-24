@@ -3,12 +3,14 @@
   <header>
     <div>
       <h1>
-        Nyt Symptom
+        Ny Medicin
       </h1>
     </div>
   </header>
   <form @submit.prevent="create">
     <input type="text" placeholder="Navn" name="name" id="name" v-model="name">
+    <input type="text" placeholder="Dosis (fx. 10µg)" name="dose" id="dose" v-model="dose">
+    <input type="text" placeholder="Gange om dagen" name="amount" id="amount" v-model="amount">
     <div class="actions">
       <router-link to="/home">
         <ion-icon name="arrow-back"></ion-icon>
@@ -24,27 +26,30 @@
 <script>
 import { ref } from 'vue'
 import { getAuth } from "firebase/auth"
-import { createSymptom } from '@/main.js'
+import { createDrug } from '@/main.js'
 import { useRoute, useRouter } from 'vue-router'
 
 export default({
   setup(){
     const name = ref("")
+    const dose = ref("")
+    const amount = ref("")
       
     const route = useRoute()
     const router = useRouter()
 
     const create = () => {
-      const auth = getAuth()
-      let user = auth.currentUser.uid
-      createSymptom(user, name.value, route.params.type, "bug")
-      router.push({ name: 'Home' })
+      if(!isNaN(amount.value)){
+        const auth = getAuth()
+        let user = auth.currentUser.uid
+        createDrug(user, name.value, dose.value, amount.value, route.params.type)
+        router.push({ name: 'Home' })
+      }
+      /* else: Gange om dagen er ikke et tal */
     }
 
-    
-
     return{
-      create, name
+      create, dose, amount, name
     }
   }
 });
