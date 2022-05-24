@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import HomePage from '../views/HomePage.vue'
 import CreateSymptom from '../views/CreateSymptom.vue'
+import CreateSymptomCategory from '../views/CreateSymptomCategory.vue'
 import CreateReport from '../views/CreateReport.vue'
 import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
@@ -20,6 +21,11 @@ const routes = [
     path: '/createsymptom/:type',
     name: 'createsymptom',
     component: CreateSymptom
+  },
+  {
+    path: '/createsymptomcategory',
+    name: 'createsymptomcategory',
+    component: CreateSymptomCategory
   },
   {
     path: '/createreport/:symptom',

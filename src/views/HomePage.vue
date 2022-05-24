@@ -133,9 +133,11 @@
     </section>
     <div class="addCategory">
       Brug for endnu en  kategori?
-      <div>
-        <ion-icon name="add-circle"></ion-icon>
-      </div>
+      <router-link to="/CreateSymptomCategory">
+        <div>
+          <ion-icon name="add-circle"></ion-icon>
+        </div>
+      </router-link>
     </div>
   </main>
 
@@ -265,6 +267,7 @@ export default({
       if(editType == "symp"){
         editSymptom(uid.value, originalName, overlayName.value) 
       }
+      hideOverlay()
     }
 
     const deleteFromOverlay = () => {
@@ -274,6 +277,7 @@ export default({
       if(editType == "symp"){
         deleteSymptom(uid.value, originalName) 
       }
+      hideOverlay()
     }
 
     let holdDownTimer;

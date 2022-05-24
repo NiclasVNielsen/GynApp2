@@ -106,7 +106,6 @@ export const getSymptomsByCategory = async (uid, category) => {
         filteredSymptoms.push(allSymptoms[0][i])
       }
     }
-    console.log(filteredSymptoms)
 
     return filteredSymptoms
   } 
@@ -116,32 +115,29 @@ export const getSymptomsByCategory = async (uid, category) => {
   }
 }
 
-export const createSymptomsCategory = async (uid, name, type, icon) => {
+export const createSymptomsCategory = async (uid, color, name, type) => {
   try {
-    /* const user = []
-    const symptoms = []
+    const user = []
+    const symptomTypes = []
 
     let q = query(collection(db, "users"), where("uid", "==", uid))
 
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
       user.push(doc.id)
-      symptoms.push(doc.data().Symptoms)
+      symptomTypes.push(doc.data().SymptomTypes)
     })
-
-    symptoms[0].push({
+    
+    symptomTypes[0].push({
+      color: color,
       name: name,
-      reports: [{
-        'intensity': 0,
-        'time': '2022-05-18T13:01'
-      }],
-      type: type,
-      icon: icon
+      order: 5,
+      type: type
     })
 
     usersCollection.doc(user[0]).update({
-      Symptoms: symptoms[0]
-    }); */
+      SymptomTypes: symptomTypes[0]
+    });
   } 
 
   catch {
@@ -307,11 +303,8 @@ export const reTypeSymptoms = async (uid, categoryName, newName) => {
         'reports': symptom[i].reports,
         'type': newName
       }
-      console.log(newSymptom)
       unchangedSymptom.push(newSymptom)
     }
-
-    console.log(unchangedSymptom)
 
     usersCollection.doc(user[0]).update({
       Symptoms: unchangedSymptom
@@ -345,9 +338,6 @@ export const deleteSymptomsByType = async (uid, type) => {
         filteredSymptom.push(symptoms[0][i])
       }
     }
-
-    console.log('deleteSymptomsByType')
-    console.log(filteredSymptom)
 
     usersCollection.doc(user[0]).update({
       Symptoms: filteredSymptom
@@ -445,9 +435,6 @@ export const editSymptom = async (uid, symptomName, newName) => {
 
 export const deleteSymptomCategory = async (uid, categoryName) => {
   try {
-    console.log('meeeeeeeeeeep! 0')
-    console.log(uid)
-    console.log(categoryName)
     const user = []
     const types = []
     const type = []
@@ -459,7 +446,6 @@ export const deleteSymptomCategory = async (uid, categoryName) => {
       user.push(doc.id)
       types.push(doc.data().SymptomTypes)
     })
-    console.log('meeeeeeeeeeep! 1')
 
     for(let i = 0; i < types[0].length; i++){
       if(types[0][i].name == categoryName){
@@ -467,12 +453,8 @@ export const deleteSymptomCategory = async (uid, categoryName) => {
         types[0].splice(i, 1)
       }
     }
-    console.log('meeeeeeeeeeep! 2')
 
     deleteSymptomsByType(uid, categoryName)
-
-    console.log('deleteSymptomCategory')
-    console.log(types[0])
 
     usersCollection.doc(user[0]).update({
       SymptomTypes: types[0]
