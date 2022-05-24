@@ -369,6 +369,47 @@ export const editSymptomCategory = async (uid, categoryName, newName) => {
   }
 }
 
+export const editSymptom = async (uid, symptomName, newName) => {
+  try {
+    const user = []
+    const symptoms = []
+    const symptom = []
+
+    let q = query(collection(db, "users"), where("uid", "==", uid))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      user.push(doc.id)
+      symptoms.push(doc.data().Symptoms)
+    })
+
+    for(let i = 0; i < symptoms[0].length; i++){
+      if(symptoms[0][i].name == symptomName){
+        symptom.push(symptoms[0][i])
+        symptoms[0].splice(i, 1)
+      }
+    }
+
+    const newSymptom = {
+      'icon': symptom[0].icon,
+      'name': newName,
+      'reports': symptom[0].reports,
+      'type': symptom[0].type
+    }
+
+
+    symptoms[0].push(newSymptom)
+
+    usersCollection.doc(user[0]).update({
+      Symptoms: symptoms[0]
+    });
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
 export const deleteSymptomCategory = async (uid, categoryName) => {
   try {
     console.log('meeeeeeeeeeep! 0')

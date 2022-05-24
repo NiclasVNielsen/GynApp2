@@ -64,7 +64,7 @@
                 <template v-if="symptom.type == type.name">
                   <div class="symptomThumb">
                     <router-link :to="'/createreport/' + symptom.name">
-                      <figure class="progCircle" @touchstart="editSymptom(symptom.name)" @touchend="holdDownTimerInterupt" @touchmove="holdDownTimerInterupt">
+                      <figure class="progCircle" @touchstart="triggerEditSymptom(symptom.name)" @touchend="holdDownTimerInterupt" @touchmove="holdDownTimerInterupt">
                         <div class="pie animate no-round" :style="{'--p': symptom.reports.sort( orderDates )[0].intensity * 10, '--c': type.color}"
                         style="position: relative">
                           <ion-icon :name="symptom.icon" :style="{'color': type.color}"></ion-icon>
@@ -121,7 +121,6 @@
                           <div class="pill" :class="index + 1 <= symptom.taken ? 'taken' : ''"></div>
                         </template>
                       </div>
-                      <!-- justify spacebetween -->
                     </div>
                   </div>
                 </template>
@@ -162,7 +161,7 @@
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
-import { getUserById, updateDrug, editSymptomCategory, drugAutoReportAndDailyReset, deleteSymptomCategory } from '../main'
+import { getUserById, updateDrug, editSymptomCategory, editSymptom, drugAutoReportAndDailyReset, deleteSymptomCategory } from '../main'
 export default({
   setup(){
     const isLoggedIn = ref(false)
@@ -255,13 +254,15 @@ export default({
     let editType;
     const editFromOverlay = () => {
       if(editType == "cat"){
-        console.log('condition entered')
         editSymptomCategory(uid.value, originalName, overlayName.value)
+      }
+      if(editType == "symp"){
+        editSymptom(uid.value, originalName, overlayName.value) 
       }
     }
 
     let holdDownTimer;
-    const editSymptom = (name) => {
+    const triggerEditSymptom = (name) => {
       holdDownTimer = setTimeout(() => {
         showOverlay(name, "symp")
       }, 400);
@@ -276,7 +277,7 @@ export default({
     return {
       name, symptomTypes, allSymptoms, orderDates, currentDate, monthNames, Logout, drugUpdate, hideOverlay, 
       showOverlay, overlayName, overlayTitle, editFromOverlay, orderTypes, deleteSymptomCategory, uid,
-      editSymptom, holdDownTimerInterupt
+      triggerEditSymptom, holdDownTimerInterupt
     }
   },
   name: 'HomePage',
