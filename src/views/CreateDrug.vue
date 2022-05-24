@@ -10,7 +10,7 @@
   <form @submit.prevent="create">
     <input type="text" placeholder="Navn" name="name" id="name" v-model="name">
     <input type="text" placeholder="Dosis (fx. 10µg)" name="dose" id="dose" v-model="dose">
-    <input type="text" placeholder="Gange om dagen" name="amount" id="amount" v-model="amount">
+    <input type="text" placeholder="Gange om dagen (fx. 3)" name="amount" id="amount" v-model="amount">
     <div class="actions">
       <router-link to="/home">
         <ion-icon name="arrow-back"></ion-icon>
