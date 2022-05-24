@@ -47,9 +47,12 @@ export const db = firebaseApp.firestore();
 
 const usersCollection = db.collection('users')
 
-export const createUser = async (uid) => {
+export const createUser = async (uid, name) => {
   return usersCollection.add({
-      uid: uid
+      uid: uid,
+      SymptomTypes: [],
+      Symptoms: [],
+      Name: name
   })
 }
 
@@ -185,7 +188,7 @@ export const createDrug = async (uid, name, dose, amount, type) => {
 
     let q = query(collection(db, "users"), where("uid", "==", uid))
 
-    console.log(typeof amount)
+    parseInt(amount)
 
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
@@ -196,7 +199,7 @@ export const createDrug = async (uid, name, dose, amount, type) => {
     symptoms[0].push({
       name: name,
       dose: dose,
-      amount: parseInt(amount),
+      amount: amount,
       type: type,
       taken: 0
     })

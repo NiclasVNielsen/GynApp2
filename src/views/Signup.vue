@@ -5,7 +5,10 @@
         </h1>
         <form @submit.prevent="Signup">
             <div>
-                <input type="text" name="email" id="email" placeholder="Email" v-model="email">
+                <input type="text" name="name" id="name" placeholder="Navn" v-model="name">
+            </div>
+            <div>
+                <input type="email" name="email" id="email" placeholder="Email" v-model="email">
             </div>
             <div>
                 <input type="password" name="password" id="password" placeholder="Password" v-model="password">
@@ -39,6 +42,7 @@ import { useRouter } from 'vue-router'
 import firebase from 'firebase/compat/app'
 export default{
     setup(){
+        const name = ref('')
         const email = ref('')
         const password = ref('')
         const uid = ref('')
@@ -51,7 +55,7 @@ export default{
               .then((userCredential) => {
                 const user = userCredential.user;
                 uid.value = user.uid
-                createUser(uid.value)
+                createUser(uid.value, name.value)
               })
               .catch((error) => {
                 console.error('Error code: ', error.code);
@@ -62,11 +66,14 @@ export default{
         const signInWithGoogle = () => {
             const provider = new GoogleAuthProvider();
             signInWithPopup(getAuth(), provider)
-                /* .then((result) => {
-
+                /* .then((userCredential) => {
+                    const user = userCredential.user;
+                    uid.value = user.uid
+                    createUser(uid.value, name.value)
                 })
                 .catch((error) => {
-
+                    console.error('Error code: ', error.code);
+                    console.error('Error message: ', error.message);
                 }) */
         }
 
@@ -80,7 +87,7 @@ export default{
         });
 
         return { 
-            email, password, Signup, signInWithGoogle
+            name, email, password, Signup, signInWithGoogle
         }
     }
 }

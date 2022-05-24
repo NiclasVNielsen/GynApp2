@@ -102,7 +102,7 @@
             <!-- Loop start -->
               <template v-for="(symptom) in allSymptoms" :key="symptom">
                 <template v-if="symptom.type == type.name">
-                  <div class="medBox" @click="drugUpdate(symptom.name)" @touchstart="triggerEditSymptom(symptom.name)" @touchend="holdDownTimerInterupt" @touchmove="holdDownTimerInterupt">
+                  <div class="medBox medFoT" @click="drugUpdate(symptom.name)" @touchstart="triggerEditSymptom(symptom.name)" @touchend="holdDownTimerInterupt" @touchmove="holdDownTimerInterupt">
                     <div class="title">
                       <p :style="{'color': type.color}">
                         {{symptom.name}}
@@ -126,7 +126,7 @@
                 </template>
               </template>
             <!-- Loop end -->
-            <div class="createDrug">
+            <div class="createDrug medFoT">
               <router-link :to="'/createdrug/' + type.name">
                 <div class="addSymptom">
                   <ion-icon name="add-circle"></ion-icon>
@@ -361,6 +361,10 @@ h2
       text-align: center
       font-size: 14px
 
+  .medFoT
+    &:first-of-type
+      margin-left: 16px 
+
   .createDrug
     margin-right: 20px
     margin-bottom: 10px
@@ -397,8 +401,6 @@ h2
     align-content: space-between
     display: flex
     flex-wrap: wrap
-    &:first-of-type
-      margin-left: 16px 
     .title
       display: flex
       align-items: center

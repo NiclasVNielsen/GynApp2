@@ -11,7 +11,7 @@
     </div>
   </header>
   <form @submit.prevent="create">
-    <input type="datetime-local" v-model="time" style="display: none"> <!-- Should give current time -->
+    <input type="datetime-local" v-model="time"> <!-- Should give current time -->
     <label for="intensity">
       Intensitet
     </label>
@@ -36,21 +36,22 @@
 import { ref } from 'vue'
 import { getAuth } from "firebase/auth"
 import { createReport } from '../main'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 export default({
   setup(){
-    const time = ref("")
+    const time = ref(`${new Date().getFullYear()}-${new Date().getMonth() < 9 ? '0' + (new Date().getMonth() + 1) : (new Date().getMonth() + 1)}-${new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate()}T${new Date().getHours()}:${new Date().getMinutes()}`)
     const intensity = ref()
     const journal = ref("")
 
     const route = useRoute()
+    const router = useRouter()
 
     const create = () => {
       const auth = getAuth()
       let user = auth.currentUser.uid
       createReport(user, route.params.symptom, time.value, intensity.value, journal.value)
-      window.location.href = '/home'
+      router.push({ name: 'Home'})
     }
 
 
