@@ -12,7 +12,12 @@
     <p>
         Farve valg er på vej!
     </p>
-    <input type="text" placeholder="Farve" name="color" id="color" v-model="color">
+    <!-- <input type="text" placeholder="Farve" name="color" id="color" v-model="color"> -->
+    <select name="color" id="color" v-model="color" required>
+        <option value="" disabled selected>Farve</option>
+        <option value="red">Rød</option>
+        <option value="green">Grøn</option>
+    </select>
     <select name="type" id="type" v-model="type" required>
         <option value="" disabled selected>Type</option>
         <option value="symptom">Symptomer</option>

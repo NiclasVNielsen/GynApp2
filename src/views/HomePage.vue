@@ -10,9 +10,9 @@
           <a @click="hideOverlay">
             <ion-icon name="arrow-back"></ion-icon>
           </a>
-          <button @click="deleteFromOverlay">
+          <div @click="deleteFromOverlay">
             <ion-icon name="trash"></ion-icon>
-          </button>
+          </div>
           <button type="submit">
             <ion-icon name="checkmark"></ion-icon>
           </button>
@@ -271,9 +271,11 @@ export default({
 
     const deleteFromOverlay = () => {
       if(editType == "cat"){
+        console.log('Category')
         deleteSymptomCategory(uid.value, originalName) 
       }
       if(editType == "symp"){
+        console.log('Symptom')
         deleteSymptom(uid.value, originalName) 
       }
       hideOverlay()
@@ -483,7 +485,7 @@ h2
         margin-bottom: 32px
         display: flex
         justify-content: center
-        a, button
+        a, div, button
           display: block
           width: 61px
           height: 61px
@@ -496,7 +498,7 @@ h2
         a
           background: #F6F6F6
           color: #ADADAD
-        button
+        div, button
           background: #CD573D
           color: #FFF
 </style>

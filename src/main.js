@@ -144,8 +144,6 @@ export const getPastWeek = async () => {
 
 export const getSymptomReportsForGraph = async (uid, category, symptom) => {
   try {
-    //console.log(category)
-
     const allSymptoms = []
     const filteredSymptoms = []
 
@@ -420,6 +418,7 @@ export const reTypeSymptoms = async (uid, categoryName, newName) => {
 
 export const deleteSymptomsByType = async (uid, type) => {
   try {
+    console.log('meme in here')
     const user = []
     const symptoms = []
     const symptom = [] /* This can be more then one in this case */
@@ -440,6 +439,8 @@ export const deleteSymptomsByType = async (uid, type) => {
         filteredSymptom.push(symptoms[0][i])
       }
     }
+
+    console.log(filteredSymptom)
 
     usersCollection.doc(user[0]).update({
       Symptoms: filteredSymptom
@@ -482,7 +483,7 @@ export const editSymptomCategory = async (uid, categoryName, newName) => {
 
     types[0].push(newType)
 
-    reTypeSymptoms(uid, categoryName, newName)
+    //reTypeSymptoms(uid, categoryName, newName)
 
     usersCollection.doc(user[0]).update({
       SymptomTypes: types[0]
@@ -569,6 +570,8 @@ export const deleteSymptomCategory = async (uid, categoryName) => {
 
     deleteSymptomsByType(uid, categoryName)
 
+    console.log(types[0])
+
     usersCollection.doc(user[0]).update({
       SymptomTypes: types[0]
     });
@@ -598,6 +601,7 @@ export const deleteSymptom = async (uid, symptomName) => {
       }
     }
 
+    console.log(symptoms[0])
     usersCollection.doc(user[0]).update({
       Symptoms: symptoms[0]
     });
