@@ -6,7 +6,7 @@
         <form @submit.prevent="Login">
             <input type="text" name="email" id="email" placeholder="Email" v-model="email">
             <input type="password" name="password" id="password" placeholder="Password" v-model="password">
-            <div @click="signInWithGoogle" class="altLogin google">
+            <!-- <div @click="signInWithGoogle" class="altLogin google">
                 <div>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M23.04 12.2613C23.04 11.4459 22.9668 10.6618 22.8309 9.90906H12V14.3575H18.1891C17.9225 15.795 17.1123 17.0129 15.8943 17.8284V20.7138H19.6109C21.7855 18.7118 23.04 15.7636 23.04 12.2613Z" fill="#4285F4"/>
@@ -18,7 +18,7 @@
                 <p>
                     Log in with Google
                 </p>
-            </div>
+            </div> -->
             <div class="actionContainer">
                 <router-link :to="'/signup'" class="action">Sign up</router-link>
                 <button type="submit" class="action target">Login</button>
