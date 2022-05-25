@@ -2,11 +2,11 @@
 <div class="spaceBoth">
   <header>
     <figure>
-      <ion-icon name="bug" style="color: var(--overskrift)"></ion-icon>
+      <ion-icon :name="symptomIcon" style="color: var(--overskrift)"></ion-icon>
     </figure>
     <div>
       <h1>
-        Tracker Navn
+        {{ symptom }}
       </h1>
     </div>
   </header>
@@ -35,7 +35,8 @@
 <script>
 import { ref } from 'vue'
 import { getAuth } from "firebase/auth"
-import { createReport } from '../main'
+import { createReport, getUserById } from '../main'
+import firebase from 'firebase/compat/app'
 import { useRoute, useRouter } from 'vue-router'
 
 export default({
@@ -47,6 +48,26 @@ export default({
     const route = useRoute()
     const router = useRouter()
 
+    const symptom = route.params.symptom
+    const allSymptoms = ref([])
+    const symptomIcon = ref("")
+
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          getUserById(user.uid)
+            .then(data => {
+              allSymptoms.value = data[0].Symptoms
+              for(let i = 0; i < allSymptoms.value.length; i++){
+                if(allSymptoms.value[i].name == symptom){
+                  symptomIcon.value = allSymptoms.value[i].icon
+                }
+              }
+            })
+        }
+    })
+
+    
+
     const create = () => {
       const auth = getAuth()
       let user = auth.currentUser.uid
@@ -56,7 +77,7 @@ export default({
 
 
     return{
-      create, time, time, intensity, journal
+      create, time, time, intensity, journal, symptom, symptomIcon
     }
   }
 });
@@ -81,6 +102,7 @@ header
       font-size: 24px !important
       font-weight: 700
       margin: 0
+      text-align: center
 
 form
   input, select, textarea

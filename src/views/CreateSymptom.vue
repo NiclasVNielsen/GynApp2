@@ -37,7 +37,7 @@ export default({
     const create = () => {
       const auth = getAuth()
       let user = auth.currentUser.uid
-      createSymptom(user, name.value, route.params.type, "bug")
+      createSymptom(user, name.value, route.params.type, "flash")
       router.push({ name: 'Home' })
     }
 
