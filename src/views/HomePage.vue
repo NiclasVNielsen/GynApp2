@@ -10,13 +10,12 @@
           <a @click="hideOverlay">
             <ion-icon name="arrow-back"></ion-icon>
           </a>
+          <button @click="deleteFromOverlay">
+            <ion-icon name="trash"></ion-icon>
+          </button>
           <button type="submit">
             <ion-icon name="checkmark"></ion-icon>
           </button>
-        </div>
-        <!-- Need styling and security make sure button! -->
-        <div style="background: red; padding: 20px; color: #000" @click="deleteFromOverlay">
-          Delete
         </div>
       </form>
     </div>

@@ -157,7 +157,6 @@ export default({
     })
 
     const weekReformating = () => {
-      console.log('Meeep')
       for(let i = 0; i < data.value.pastWeek.length; i++){
         data.value.pastWeek[i] = `${data.value.pastWeek[i][5]}${data.value.pastWeek[i][6]}/${data.value.pastWeek[i][8]}${data.value.pastWeek[i][9]}`
       }
