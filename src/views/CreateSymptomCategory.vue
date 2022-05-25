@@ -9,14 +9,16 @@
   </header>
   <form @submit.prevent="create">
     <input type="text" placeholder="Navn" name="name" id="name" v-model="name" required>
-    <p>
-        Farve valg er på vej!
-    </p>
-    <!-- <input type="text" placeholder="Farve" name="color" id="color" v-model="color"> -->
     <select name="color" id="color" v-model="color" required>
         <option value="" disabled selected>Farve</option>
-        <option value="red">Rød</option>
-        <option value="green">Grøn</option>
+        <option value="#FF0000">Rød</option>
+        <option value="#FFD700">Gul</option>
+        <option value="#FF8C00">Orange</option>
+        <option value="#7FFF00">Grøn</option>
+        <option value="#00FFFF">Cyan</option>
+        <option value="#0000FF">Blå</option>
+        <option value="#8A2BE2">Lilla</option>
+        <option value="#FF69B4">Pink</option>
     </select>
     <select name="type" id="type" v-model="type" required>
         <option value="" disabled selected>Type</option>
