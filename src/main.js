@@ -118,6 +118,30 @@ export const getSymptomsByCategory = async (uid, category) => {
   }
 }
 
+export const getPastWeek = async () => {
+  try {
+    const date = new Date()
+    const dates = [
+      new Date(),
+      new Date(),
+      new Date(),
+      new Date(),
+      new Date(),
+      new Date(),
+      `${date.getFullYear()}-${(date.getMonth() + 1) < 10 ? "0" : ""}${date.getMonth() + 1}${date.getDate() < 10 ? "0" : ""}-${date.getDate()}`
+    ]
+    for(let i = dates.length - 2; i >= 0; i--){
+      dates[i].setDate(dates[i].getDate() - (6 - i))
+      dates[i].toDateString()
+      dates[i] = `${dates[i].getFullYear()}-${(dates[i].getMonth() + 1) < 10 ? "0" : ""}${dates[i].getMonth() + 1}${dates[i].getDate() < 10 ? "0" : ""}-${dates[i].getDate()}`
+    }
+
+    return dates
+  } catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
 export const getSymptomReportsForGraph = async (uid, category, symptom) => {
   try {
     //console.log(category)
@@ -137,39 +161,22 @@ export const getSymptomReportsForGraph = async (uid, category, symptom) => {
         filteredSymptoms.push(allSymptoms[0][i])
       }
     }
-
-    const date = new Date()
-    const dates = [
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      `${date.getFullYear()}-${(date.getMonth() + 1) < 10 ? "0" : ""}${date.getMonth() + 1}${date.getDate() < 10 ? "0" : ""}-${date.getDate()}`
-    ]
-    for(let i = dates.length - 2; i >= 0; i--){
-      dates[i].setDate(dates[i].getDate() - (6 - i))
-      dates[i].toDateString()
-      dates[i] = `${dates[i].getFullYear()}-${(dates[i].getMonth() + 1) < 10 ? "0" : ""}${dates[i].getMonth() + 1}${dates[i].getDate() < 10 ? "0" : ""}-${dates[i].getDate()}`
-    }
     
     const graphData = ["0","0","0","0","0","0","0"]
-
-    for(let i = 0; i < filteredSymptoms[0].reports.length; i++){
-      for(let x = 0; x < dates.length; x++){
-        if(dates[x] == filteredSymptoms[0].reports[i].time.split('T')[0]){
-          if(parseInt(graphData[x]) < parseInt(filteredSymptoms[0].reports[i].intensity)){
-            graphData[x] = filteredSymptoms[0].reports[i].intensity
+    getPastWeek()
+      .then(dates => {
+    
+        for(let i = 0; i < filteredSymptoms[0].reports.length; i++){
+          for(let x = 0; x < dates.length; x++){
+            if(dates[x] == filteredSymptoms[0].reports[i].time.split('T')[0]){
+              if(parseInt(graphData[x]) < parseInt(filteredSymptoms[0].reports[i].intensity)){
+                graphData[x] = filteredSymptoms[0].reports[i].intensity
+              }
+            }
           }
         }
-      }
-    }
-
-    console.log(graphData)
-    console.log(dates)
-
-    return {graphData, dates}
+      })
+      return graphData
   } 
 
   catch {

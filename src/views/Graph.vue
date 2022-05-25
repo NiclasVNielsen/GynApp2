@@ -6,27 +6,52 @@
     </h1>
   </header>
   <section class="graph">
+    <div class="dataDisplay">
       <div class="cyllinder">
-          <figure></figure>
+          <figure :style="{'height': `calc(16.6px * ${data.graphData[0]})`}"></figure>
       </div>
       <div class="cyllinder">
-          <figure></figure>
+          <figure :style="{'height': `calc(16.6px * ${data.graphData[1]})`}"></figure>
       </div>
       <div class="cyllinder">
-          <figure></figure>
+          <figure :style="{'height': `calc(16.6px * ${data.graphData[2]})`}"></figure>
       </div>
       <div class="cyllinder">
-          <figure></figure>
+          <figure :style="{'height': `calc(16.6px * ${data.graphData[3]})`}"></figure>
       </div>
       <div class="cyllinder">
-          <figure></figure>
+          <figure :style="{'height': `calc(16.6px * ${data.graphData[4]})`}"></figure>
       </div>
       <div class="cyllinder">
-          <figure></figure>
+          <figure :style="{'height': `calc(16.6px * ${data.graphData[5]})`}"></figure>
       </div>
       <div class="cyllinder">
-          <figure></figure>
+          <figure :style="{'height': `calc(16.6px * ${data.graphData[6]})`}"></figure>
       </div>
+    </div>
+    <div class="weekDays">
+      <div>
+        {{data.pastWeek[0]}}
+      </div>
+      <div>
+        {{data.pastWeek[1]}}
+      </div>
+      <div>
+        {{data.pastWeek[2]}}
+      </div>
+      <div>
+        {{data.pastWeek[3]}}
+      </div>
+      <div>
+        {{data.pastWeek[4]}}
+      </div>
+      <div>
+        {{data.pastWeek[5]}}
+      </div>
+      <div>
+        {{data.pastWeek[6]}}
+      </div>
+    </div>
   </section>
   <div>
 </div>
@@ -87,7 +112,7 @@
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
-import { getCategoriesById, getSymptomsByCategory, getSymptomReportsForGraph } from '../main'
+import { getCategoriesById, getSymptomsByCategory, getSymptomReportsForGraph, getPastWeek } from '../main'
 
 export default({
   setup(){
@@ -118,14 +143,49 @@ export default({
         })
     }
     
+    let data = ref({
+      graphData: ["0","0","0","0","0","0","0"],
+      pastWeek:  [
+        "2022-05-19",
+        "2022-05-20",
+        "2022-05-21",
+        "2022-05-22",
+        "2022-05-23",
+        "2022-05-24",
+        "2022-05-25"
+      ]
+    })
+
+    const weekReformating = () => {
+      console.log('Meeep')
+      for(let i = 0; i < data.value.pastWeek.length; i++){
+        data.value.pastWeek[i] = `${data.value.pastWeek[i][5]}${data.value.pastWeek[i][6]}/${data.value.pastWeek[i][8]}${data.value.pastWeek[i][9]}`
+      }
+    }
+
+    getPastWeek()
+      .then(week => {
+        data.value.pastWeek = week
+        weekReformating()
+      })
+    
     function selectSymptom(index){
         targetSymptom.value = symptoms.value[index]
         /* Control the graph here! */
         getSymptomReportsForGraph(uid.value, targetCategory.value, targetSymptom.value)
+          .then(x => {
+            data.value.graphData = x
+          })
+          
+        getPastWeek()
+          .then(week => {
+            data.value.pastWeek = week
+            weekReformating()
+          })
     } 
 
     return{
-      categories, selectCategory, symptoms, selectSymptom, targetCategory, targetSymptom
+      categories, selectCategory, symptoms, selectSymptom, targetCategory, targetSymptom, data, getPastWeek
     }
   }
 });
@@ -139,22 +199,35 @@ export default({
     border-radius: 10px
     margin-bottom: 19px
     margin-top: 56px
-    display: flex
-    justify-content: space-between
-    padding: 16px 24px 0
-    .cyllinder
-        width: 16px
-        height: 166px
-        background: #EAEAEA
-        border-radius: 8px
-        display: flex
-        align-items: flex-end
-        figure
-            height: calc(16.6px * 0)
-            width: 100%
-            background: #CB563D
-            margin: 0 !important
-            border-radius: 8px
+    padding: 16px 0 0
+    .weekDays
+      display: flex
+      justify-content: space-between
+      padding: 10px 18px 0
+      div
+        color: #A3A3A3
+        font-size: 10px
+    .dataDisplay
+      display: flex
+      justify-content: space-between
+      .cyllinder
+          width: 16px
+          height: 166px
+          background: #EAEAEA
+          border-radius: 8px
+          display: flex
+          align-items: flex-end
+          &:first-of-type
+            margin-left: 24px
+          &:last-of-type
+            margin-right: 24px
+          figure
+              height: 0
+              transition: 200ms
+              width: 100%
+              background: #CB563D
+              margin: 0 !important
+              border-radius: 8px
 
 h1
     font-size: 32px
