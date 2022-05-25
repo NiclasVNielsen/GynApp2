@@ -87,7 +87,7 @@
 <script>
 import { ref } from 'vue'
 import firebase from 'firebase/compat/app'
-import { getCategoriesById, getSymptomsByCategory } from '../main'
+import { getCategoriesById, getSymptomsByCategory, getSymptomReportsForGraph } from '../main'
 
 export default({
   setup(){
@@ -95,9 +95,11 @@ export default({
     const targetCategory = ref([])
     const symptoms = ref([])
     const targetSymptom = ref([])
+    const uid = ref('')
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
-          getCategoriesById(user.uid)
+          uid.value = user.uid
+          getCategoriesById(uid.value)
             .then(data => {
               categories.value = data[0]
             })
@@ -119,6 +121,7 @@ export default({
     function selectSymptom(index){
         targetSymptom.value = symptoms.value[index]
         /* Control the graph here! */
+        getSymptomReportsForGraph(uid.value, targetCategory.value, targetSymptom.value)
     } 
 
     return{

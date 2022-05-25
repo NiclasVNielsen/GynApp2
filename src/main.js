@@ -118,6 +118,65 @@ export const getSymptomsByCategory = async (uid, category) => {
   }
 }
 
+export const getSymptomReportsForGraph = async (uid, category, symptom) => {
+  try {
+    //console.log(category)
+
+    const allSymptoms = []
+    const filteredSymptoms = []
+
+    let q = query(collection(db, "users"), where("uid", "==", uid))
+    
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doc) => {
+      allSymptoms.push(doc.data().Symptoms)
+    })
+
+    for(let i = 0; i < allSymptoms[0].length; i++){
+      if(allSymptoms[0][i].type == category.name && allSymptoms[0][i].name == symptom.name){
+        filteredSymptoms.push(allSymptoms[0][i])
+      }
+    }
+
+    const date = new Date()
+    const dates = [
+      new Date(),
+      new Date(),
+      new Date(),
+      new Date(),
+      new Date(),
+      new Date(),
+      `${date.getFullYear()}-${(date.getMonth() + 1) < 10 ? "0" : ""}${date.getMonth() + 1}${date.getDate() < 10 ? "0" : ""}-${date.getDate()}`
+    ]
+    for(let i = dates.length - 2; i >= 0; i--){
+      dates[i].setDate(dates[i].getDate() - (6 - i))
+      dates[i].toDateString()
+      dates[i] = `${dates[i].getFullYear()}-${(dates[i].getMonth() + 1) < 10 ? "0" : ""}${dates[i].getMonth() + 1}${dates[i].getDate() < 10 ? "0" : ""}-${dates[i].getDate()}`
+    }
+    
+    const graphData = ["0","0","0","0","0","0","0"]
+
+    for(let i = 0; i < filteredSymptoms[0].reports.length; i++){
+      for(let x = 0; x < dates.length; x++){
+        if(dates[x] == filteredSymptoms[0].reports[i].time.split('T')[0]){
+          if(parseInt(graphData[x]) < parseInt(filteredSymptoms[0].reports[i].intensity)){
+            graphData[x] = filteredSymptoms[0].reports[i].intensity
+          }
+        }
+      }
+    }
+
+    console.log(graphData)
+    console.log(dates)
+
+    return {graphData, dates}
+  } 
+
+  catch {
+    err => console.error('This is burning🔥 ', err)
+  }
+}
+
 export const createSymptomsCategory = async (uid, color, name, type) => {
   try {
     const user = []
@@ -597,7 +656,7 @@ export const drugAutoReportAndDailyReset = async (uid) => {
           lastUpdated = currendt date
         }
     */
-    const time = `${new Date().getFullYear()}${new Date().getMonth() < 10 ? "0" : ""}${new Date().getMonth()}${new Date().getDate() < 10 ? "0" : ""}${new Date().getDate()}`
+    const time = `${new Date().getFullYear()}-${(new Date().getMonth() + 1) < 10 ? "0" : ""}${new Date().getMonth() + 1}${new Date().getDate() < 10 ? "0" : ""}-${new Date().getDate()}`
     for(let i = 0; i < drugSymptoms.length; i++){
       /* Set default if none of the conditions are true */
       let newSymptom = {
