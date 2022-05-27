@@ -9,6 +9,11 @@
   </header>
   <form @submit.prevent="create">
     <input type="text" placeholder="Navn" name="name" id="name" v-model="name">
+     <select name="icon" id="icon" v-model="icon" required>
+        <option value="" disabled selected>Ikon</option>
+        <option value="flash">Flash</option>
+        <option value="aperture">Aperture</option>
+    </select>
     <div class="actions">
       <router-link to="/home">
         <ion-icon name="arrow-back"></ion-icon>
@@ -30,6 +35,7 @@ import { useRoute, useRouter } from 'vue-router'
 export default({
   setup(){
     const name = ref("")
+    const icon = ref("")
       
     const route = useRoute()
     const router = useRouter()
@@ -37,14 +43,14 @@ export default({
     const create = () => {
       const auth = getAuth()
       let user = auth.currentUser.uid
-      createSymptom(user, name.value, route.params.type, "flash")
+      createSymptom(user, name.value, route.params.type, icon.value)
       router.push({ name: 'Home' })
     }
 
     
 
     return{
-      create, name
+      create, name, icon
     }
   }
 });

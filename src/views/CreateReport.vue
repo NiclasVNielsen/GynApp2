@@ -12,6 +12,7 @@
   </header>
   <form @submit.prevent="create">
     <input type="datetime-local" v-model="time"> <!-- Should give current time -->
+    <!-- For some reason this dosent work sometimes and i have too add a {{time}} and remove it again -->
     <label for="intensity">
       Intensitet
     </label>
